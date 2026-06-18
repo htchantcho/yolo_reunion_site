@@ -1,0 +1,250 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+  MANUAL_REVIEW
+}
+
+enum RegistrationStatus {
+  PENDING_VERIFICATION
+  VERIFIED
+  PENDING_PAYMENT
+  PAID
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  PARTIAL
+}
+
+enum PaymentMethod {
+  MTN_MOMO
+  ORANGE_MONEY
+  CARD
+  PAYPAL
+  BANK_TRANSFER
+}
+
+enum DonationType {
+  CHARITY
+  SCHOOL_SUPPORT
+  ALUMNI_PROJECT
+  SPONSORSHIP
+  CUSTOM
+}
+
+model AlumniRecord {
+  id                 String             @id @default(cuid())
+  fullName           String
+  formerName         String?
+  yearAdmission      Int
+  yearGraduation     Int?
+  className          String?
+  batch              String?
+  house              String?
+  dateOfBirth        DateTime?
+  phone              String?            @unique
+  email              String?            @unique
+  country            String?
+  city               String?
+  occupation         String?
+  photoUrl           String?
+  verificationStatus VerificationStatus @default(PENDING)
+  adminNotes         String?
+  importedAt         DateTime?
+  registrations      Registration[]
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  @@index([fullName])
+  @@index([yearGraduation])
+  @@index([batch])
+  @@index([verificationStatus])
+}
+
+model Registration {
+  id                 String             @id @default(cuid())
+  registrationId     String             @unique @default(cuid())
+  fullName           String
+  email              String
+  phone              String
+  country            String
+  classYear          String
+  guestCount         Int                @default(0)
+  guestDetails       Json?
+  dietaryPrefs       String?
+  accessibilityNeeds String?
+  consentUpdates     Boolean            @default(false)
+  agreedToTerms      Boolean            @default(false)
+  status             RegistrationStatus @default(PENDING_VERIFICATION)
+  paymentStatus      PaymentStatus      @default(PENDING)
+  alumniRecord       AlumniRecord?      @relation(fields: [alumniRecordId], references: [id])
+  alumniRecordId     String?
+  payments           Payment[]
+  calendarSent       Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+
+  @@index([email])
+  @@index([phone])
+  @@index([status])
+}
+
+model Payment {
+  id             String        @id @default(cuid())
+  registration   Registration  @relation(fields: [registrationId], references: [id])
+  registrationId String
+  amount         Int
+  currency       String        @default("XAF")
+  method         PaymentMethod
+  status         PaymentStatus @default(PENDING)
+  providerRef    String?
+  providerData   Json?
+  receiptUrl     String?
+  failureReason  String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([registrationId])
+  @@index([status])
+}
+
+model Donation {
+  id          String        @id @default(cuid())
+  donorName   String?
+  donorEmail  String?
+  amount      Int
+  currency    String        @default("XAF")
+  type        DonationType
+  message     String?
+  anonymous   Boolean       @default(false)
+  method      PaymentMethod
+  status      PaymentStatus @default(PENDING)
+  providerRef String?
+  receiptSent Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status])
+}
+
+model ProgrammeItem {
+  id          String   @id @default(cuid())
+  time        String
+  title       String
+  description String?
+  speaker     String?
+  location    String?
+  order       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}
+
+model FAQItem {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String   @default("general")
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  classYear String
+  quote     String
+  photoUrl  String?
+  published Boolean  @default(true)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MediaItem {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  type         String
+  url          String
+  thumbnailUrl String?
+  year         Int?
+  albumName    String?
+  batch        String?
+  cloudinaryId String?
+  published    Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([type])
+  @@index([year])
+}
+
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String
+  role         String    @default("admin")
+  lastLogin    DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  adminId    String
+  action     String
+  resource   String
+  resourceId String?
+  details    Json?
+  ip         String?
+  createdAt  DateTime @default(now())
+
+  @@index([adminId])
+  @@index([resource])
+}
+
+model VerificationRequest {
+  id         String             @id @default(cuid())
+  fullName   String
+  email      String
+  phone      String
+  classYear  String
+  details    String
+  status     VerificationStatus @default(MANUAL_REVIEW)
+  adminNotes String?
+  resolvedAt DateTime?
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+
+  @@index([status])
+}
