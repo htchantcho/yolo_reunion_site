@@ -106,7 +106,7 @@ export async function sendRegistrationConfirmation({
             <p style="color:#555;font-size:14px;line-height:1.6;margin:0">
               Questions? Reply to this email or contact us at
               <a href="mailto:yoloreunion@gmail.com" style="color:#2D6A4F">yoloreunion@gmail.com</a>.<br>
-              WhatsApp: <strong>+237600000000</strong>
+              WhatsApp: <strong>+12402716512</strong>
             </p>
           </td>
         </tr>

@@ -18,9 +18,9 @@ export default function ContactPage() {
                 <Mail size={20} style={{color:'#8B1A1A'}}/>
                 <div><p className="text-xs text-neutral-500">Email</p><p className="font-medium text-neutral-900">yoloreunion@gmail.com</p></div>
               </a>
-              <a href="https://wa.me/237600000000" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 rounded-xl border border-neutral-200 hover:border-green-300 hover:bg-green-50 transition-all">
+              <a href="https://wa.me/12402716512" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 rounded-xl border border-neutral-200 hover:border-green-300 hover:bg-green-50 transition-all">
                 <Phone size={20} className="text-green-500"/>
-                <div><p className="text-xs text-neutral-500">WhatsApp</p><p className="font-medium text-neutral-900">+237 600 000 000</p></div>
+                <div><p className="text-xs text-neutral-500">WhatsApp</p><p className="font-medium text-neutral-900">+1 240 271 6512</p></div>
               </a>
             </div>
             <div className="rounded-xl p-5 border" style={{background:'#FDF2F2',borderColor:'#FAE2E2'}}>

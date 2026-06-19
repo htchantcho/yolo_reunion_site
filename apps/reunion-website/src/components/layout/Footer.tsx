@@ -21,7 +21,7 @@ export function Footer() {
             <h4 className="text-white font-semibold mb-3">Contact</h4>
             <div className="space-y-2 text-sm">
               <a href="mailto:yoloreunion@gmail.com" className="flex items-center gap-2 hover:text-white"><Mail size={14}/> yoloreunion@gmail.com</a>
-              <a href="https://wa.me/237600000000" className="flex items-center gap-2 hover:text-white" target="_blank" rel="noopener noreferrer"><Phone size={14}/> +237 600 000 000</a>
+              <a href="https://wa.me/12402716512" className="flex items-center gap-2 hover:text-white" target="_blank" rel="noopener noreferrer"><Phone size={14}/> +1 240 271 6512</a>
             </div>
           </div>
         </div>

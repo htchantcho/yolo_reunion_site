@@ -8,6 +8,6 @@ export const EVENT = {
   registrationFee: 35000,
   registrationFeeDisplay: '35,000 XAF',
   contactEmail: 'yoloreunion@gmail.com',
-  contactWhatsApp: '+237600000000',
+  contactWhatsApp: '+12402716512',
   socialLinks: { facebook: '', instagram: '', twitter: '' },
 } as const
