@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { db } from '@/lib/db'
+import { sendRegistrationConfirmation } from '@/lib/email'
 
 const schema = z.object({
   fullName: z.string().min(2),
@@ -70,7 +71,12 @@ export async function POST(req: NextRequest) {
       },
     })
 
-    console.log('[Registration]', registration.registrationId, body.email, status)
+    sendRegistrationConfirmation({
+      to: registration.email,
+      fullName: registration.fullName,
+      registrationId: registration.registrationId,
+      classYear: registration.classYear,
+    }).catch((err) => console.error('[Email] Failed to send confirmation:', err))
 
     return NextResponse.json({
       registrationId: registration.registrationId,
