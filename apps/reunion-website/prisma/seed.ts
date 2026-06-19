@@ -30,6 +30,19 @@ async function main() {
     { name: 'Marie-Claire Ngo', classYear: 'Class of 2001', quote: 'Seeing faces I had not seen in 20 years was magical. Sacred Heart gave us a bond that time cannot break.', order: 2 },
     { name: 'Emmanuel Fotso', classYear: 'Class of 1988', quote: 'The reunion reminded me why we all carry SHEDESA with us wherever we go in the world. This community is for life.', order: 3 },
   ]})
+
+  const bcrypt = require('bcryptjs')
+  const passwordHash = await bcrypt.hash('ShedesaAdmin2026!', 10)
+  await prisma.adminUser.upsert({
+    where: { email: 'admin@shedesareunion.com' },
+    update: {},
+    create: {
+      email: 'admin@shedesareunion.com',
+      passwordHash,
+      name: 'Herve Tchantcho',
+      role: 'admin',
+    },
+  })
   console.log('Seed complete.')
 }
 main().catch(console.error).finally(() => prisma.$disconnect())
