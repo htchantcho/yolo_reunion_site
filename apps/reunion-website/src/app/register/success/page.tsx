@@ -29,7 +29,7 @@ export default function RegisterSuccessPage() {
               </li>
               <li className="flex gap-2">
                 <span style={{ color: '#B7960C' }}>2.</span>
-                <span>Payment instructions (25,000 XAF) will be included in that email.</span>
+                <span>Payment instructions (35,000 XAF) will be included in that email.</span>
               </li>
               <li className="flex gap-2">
                 <span style={{ color: '#B7960C' }}>3.</span>

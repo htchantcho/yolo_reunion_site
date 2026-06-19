@@ -21,8 +21,8 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Registration not found' }, { status: 404 })
   }
 
-  const eventStart = new Date('2026-12-26T09:00:00Z')
-  const eventEnd = new Date('2026-12-26T18:00:00Z')
+  const eventStart = new Date('2026-12-19T09:00:00Z')
+  const eventEnd = new Date('2026-12-19T18:00:00Z')
 
   const ics = [
     'BEGIN:VCALENDAR',

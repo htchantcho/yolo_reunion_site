@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-const EVENT_DATE = new Date('2026-12-26T10:00:00')
+const EVENT_DATE = new Date('2026-12-19T10:00:00')
 interface TimeLeft { days: number; hours: number; minutes: number; seconds: number }
 function calc(): TimeLeft {
   const diff = EVENT_DATE.getTime() - Date.now()

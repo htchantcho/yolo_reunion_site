@@ -16,7 +16,7 @@ export function HeroSection() {
           Reconnect with your Sacred Heart College Douala community. Celebrate memories, honour our school, and build our future together.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4 mb-10 text-sm" style={{color:'rgba(255,255,255,0.7)'}}>
-          <span className="flex items-center gap-1.5"><CalendarDays size={16}/> December 26, 2026</span>
+          <span className="flex items-center gap-1.5"><CalendarDays size={16}/> December 19, 2026</span>
           <span style={{color:'rgba(255,255,255,0.3)'}}>•</span>
           <span className="flex items-center gap-1.5"><MapPin size={16}/> Douala, Cameroon</span>
         </div>

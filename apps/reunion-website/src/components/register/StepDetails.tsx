@@ -95,7 +95,7 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
         style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}
       >
         <p className="font-semibold mb-0.5" style={{ color: '#2D6A4F' }}>
-          Registration Fee: 25,000 XAF per person
+          Registration Fee: 35,000 XAF per person
         </p>
         <p className="text-neutral-600">
           Payment instructions will be sent to your email after registration is confirmed.

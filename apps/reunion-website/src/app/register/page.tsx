@@ -36,7 +36,7 @@ export default function RegisterPage() {
             Register for SHEDESA Reunion 2026
           </h1>
           <p className="text-neutral-600 text-sm">
-            Sacred Heart College Douala — December 26, 2026 · Douala, Cameroon
+            Sacred Heart College Douala — December 19, 2026 · Douala, Cameroon
           </p>
         </div>
 

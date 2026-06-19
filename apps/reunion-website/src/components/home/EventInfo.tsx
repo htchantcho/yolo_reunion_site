@@ -1,9 +1,9 @@
 import { CalendarDays, MapPin, Users, Heart } from 'lucide-react'
 const highlights = [
-  { icon: CalendarDays, label: 'Event Date', value: 'December 26, 2026' },
+  { icon: CalendarDays, label: 'Event Date', value: 'December 19, 2026' },
   { icon: MapPin, label: 'Location', value: 'Douala, Cameroon' },
   { icon: Users, label: 'Who Attends', value: 'All SHEDESA alumni worldwide' },
-  { icon: Heart, label: 'Entry Fee', value: '25,000 XAF' },
+  { icon: Heart, label: 'Entry Fee', value: '35,000 XAF' },
 ]
 export function EventInfo() {
   return (

@@ -68,7 +68,7 @@ export async function sendRegistrationConfirmation({
                 <table width="100%" cellpadding="4" cellspacing="0">
                   <tr>
                     <td style="color:#888;font-size:13px;width:120px">Date</td>
-                    <td style="color:#333;font-size:13px;font-weight:bold">December 26, 2026</td>
+                    <td style="color:#333;font-size:13px;font-weight:bold">December 19, 2026</td>
                   </tr>
                   <tr>
                     <td style="color:#888;font-size:13px">Location</td>
@@ -80,7 +80,7 @@ export async function sendRegistrationConfirmation({
                   </tr>
                   <tr>
                     <td style="color:#888;font-size:13px">Fee</td>
-                    <td style="color:#333;font-size:13px;font-weight:bold">25,000 XAF</td>
+                    <td style="color:#333;font-size:13px;font-weight:bold">35,000 XAF</td>
                   </tr>
                 </table>
               </td></tr>
@@ -89,7 +89,7 @@ export async function sendRegistrationConfirmation({
             <!-- Next steps -->
             <p style="color:#333;font-size:14px;font-weight:bold;margin:0 0 12px">Next Steps</p>
             <ol style="color:#555;font-size:14px;line-height:1.8;margin:0 0 24px;padding-left:20px">
-              <li>You will receive a <strong>payment link by email</strong> within 48 hours to complete your registration fee of 25,000 XAF.</li>
+              <li>You will receive a <strong>payment link by email</strong> within 48 hours to complete your registration fee of 35,000 XAF.</li>
               <li>Once payment is confirmed, your spot is fully secured.</li>
               <li>Add the event to your calendar using the button below.</li>
             </ol>

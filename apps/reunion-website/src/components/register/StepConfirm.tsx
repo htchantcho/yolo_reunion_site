@@ -44,7 +44,7 @@ export function StepConfirm({ registrationId, fullName }: Props) {
           <li className="flex gap-2">
             <span style={{ color: '#B7960C' }}>1.</span>
             <span>
-              Payment instructions (25,000 XAF) will be sent to your email within 24 hours.
+              Payment instructions (35,000 XAF) will be sent to your email within 24 hours.
             </span>
           </li>
           <li className="flex gap-2">
