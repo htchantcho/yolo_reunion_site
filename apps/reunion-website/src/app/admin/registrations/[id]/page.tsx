@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { db } from '@/lib/db'
 import Link from 'next/link'
+import RegistrationActions from './RegistrationActions'
 
 export const dynamic = 'force-dynamic'
 
@@ -61,8 +62,8 @@ export default async function RegistrationDetailPage({ params }: { params: Promi
               <p style={{ fontSize: 13, color: '#047857', margin: 0 }}>Batch {reg.alumniRecord.batch} · Class of {reg.alumniRecord.yearGraduation}</p>
             </div>
           )}
-          {/* Actions rendered in Task 4 */}
-          <div id="registration-actions" data-reg-id={reg.id} data-reg-status={reg.status} data-reg-email={reg.email} data-reg-name={reg.fullName} />
+
+          <RegistrationActions regId={reg.id} currentStatus={reg.status as never} />
         </div>
       </div>
     </div>
