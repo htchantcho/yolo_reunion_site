@@ -52,23 +52,41 @@ export async function POST(req: NextRequest) {
 
     const status = body.alumniRecordId ? 'VERIFIED' : 'PENDING_VERIFICATION'
 
-    const registration = await db.registration.create({
-      data: {
-        registrationId,
-        fullName: body.fullName,
-        email: body.email,
-        phone: body.phone,
-        country: body.country,
-        classYear: body.classYear,
-        guestCount: body.guestCount,
-        dietaryPrefs: body.dietaryPrefs,
-        accessibilityNeeds: body.accessibilityNeeds,
-        consentUpdates: body.consentUpdates,
-        agreedToTerms: body.agreedToTerms,
-        alumniRecordId: body.alumniRecordId,
-        status,
-        paymentStatus: 'PENDING',
-      },
+    // Run registration create + alumni record update in one transaction
+    const registration = await db.$transaction(async (tx) => {
+      const reg = await tx.registration.create({
+        data: {
+          registrationId,
+          fullName: body.fullName,
+          email: body.email,
+          phone: body.phone,
+          country: body.country,
+          classYear: body.classYear,
+          guestCount: body.guestCount,
+          dietaryPrefs: body.dietaryPrefs,
+          accessibilityNeeds: body.accessibilityNeeds,
+          consentUpdates: body.consentUpdates,
+          agreedToTerms: body.agreedToTerms,
+          alumniRecordId: body.alumniRecordId,
+          status,
+          paymentStatus: 'PENDING',
+        },
+      })
+
+      // Update the linked alumni record with the registrant's contact info
+      if (body.alumniRecordId) {
+        await tx.alumniRecord.update({
+          where: { id: body.alumniRecordId },
+          data: {
+            email: body.email,
+            phone: body.phone,
+            country: body.country,
+            verificationStatus: 'VERIFIED',
+          },
+        })
+      }
+
+      return reg
     })
 
     sendRegistrationConfirmation({
