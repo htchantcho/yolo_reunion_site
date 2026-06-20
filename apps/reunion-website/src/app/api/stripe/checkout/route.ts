@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe, getCurrencyOption, type SupportedCurrency } from '@/lib/stripe'
+import { stripe, calcTotal } from '@/lib/stripe'
 import { db } from '@/lib/db'
 
 export async function POST(req: NextRequest) {
@@ -22,8 +22,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Already paid' }, { status: 409 })
     }
 
-    const option = getCurrencyOption(currency)
+    const { people, totalAmount, label, amountPerPerson } = calcTotal(currency, registration.guestCount)
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://shedesareunion.com'
+
+    const guestLine = registration.guestCount > 0
+      ? ` · ${registration.guestCount} guest${registration.guestCount > 1 ? 's' : ''} included`
+      : ''
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -31,26 +35,28 @@ export async function POST(req: NextRequest) {
       line_items: [
         {
           price_data: {
-            currency: option.label.toLowerCase(),
-            unit_amount: option.amount,
+            currency: label.toLowerCase(),
+            unit_amount: amountPerPerson,
             product_data: {
               name: 'SHEDESA Reunion 2026 — Registration Fee',
-              description: `35,000 XAF (${option.display}) · Ref: ${registrationId}`,
+              description: `35,000 XAF/person × ${people} person${people > 1 ? 's' : ''}${guestLine} · Ref: ${registrationId}`,
             },
           },
-          quantity: 1,
+          quantity: people,
         },
       ],
       metadata: {
         registrationId,
-        currency: option.label,
+        currency: label,
+        guestCount: String(registration.guestCount),
+        totalAmount: String(totalAmount),
       },
       customer_email: registration.email,
       success_url: `${appUrl}/register/success?paid=1&session_id={CHECKOUT_SESSION_ID}&regId=${registrationId}`,
       cancel_url: `${appUrl}/register/success?regId=${registrationId}&cancelled=1`,
     })
 
-    return NextResponse.json({ url: session.url })
+    return NextResponse.json({ url: session.url, totalAmount, currency: label, people })
   } catch (err) {
     console.error('[Stripe Checkout]', err)
     return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 })

@@ -1,15 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { buttonVariants } from '@/components/ui/button'
 
 const CURRENCIES = [
-  { key: 'eur', label: 'EUR', display: '54 EUR',      flag: '🇪🇺', note: 'fixed rate' },
-  { key: 'usd', label: 'USD', display: '60 USD',      flag: '🇺🇸', note: 'approx.'    },
-  { key: 'ngn', label: 'NGN', display: '95,000 NGN',  flag: '🇳🇬', note: 'approx.'    },
+  { key: 'eur', label: 'EUR', perPerson: '54 EUR',     flag: '🇪🇺', note: 'fixed rate' },
+  { key: 'usd', label: 'USD', perPerson: '60 USD',     flag: '🇺🇸', note: 'approx.'    },
+  { key: 'ngn', label: 'NGN', perPerson: '95,000 NGN', flag: '🇳🇬', note: 'approx.'    },
 ] as const
+
+type Currency = (typeof CURRENCIES)[number]['key']
+
+const PER_PERSON: Record<Currency, { amount: number; suffix: string }> = {
+  eur: { amount: 54,     suffix: 'EUR' },
+  usd: { amount: 60,     suffix: 'USD' },
+  ngn: { amount: 95000,  suffix: 'NGN' },
+}
+
+function fmt(n: number) {
+  return new Intl.NumberFormat('en').format(n)
+}
 
 export default function SuccessContent() {
   const params = useSearchParams()
@@ -17,9 +29,23 @@ export default function SuccessContent() {
   const cancelled = params.get('cancelled') === '1'
   const regId = params.get('regId')
 
-  const [currency, setCurrency] = useState<'eur' | 'usd' | 'ngn'>('eur')
+  const [currency, setCurrency] = useState<Currency>('eur')
+  const [guestCount, setGuestCount] = useState<number | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+
+  // Fetch guest count to show accurate price breakdown
+  useEffect(() => {
+    if (!regId) return
+    fetch(`/api/registration-info?regId=${regId}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (d?.guestCount !== undefined) setGuestCount(d.guestCount) })
+      .catch(() => null)
+  }, [regId])
+
+  const people = 1 + (guestCount ?? 0)
+  const selected = PER_PERSON[currency]
+  const total = selected.amount * people
 
   async function handlePay() {
     if (!regId) return
@@ -76,8 +102,7 @@ export default function SuccessContent() {
             Registration Received
           </h1>
           <p className="text-neutral-600 mb-6">
-            Thank you for registering for the SHEDESA Reunion 2026. Complete your payment below to
-            secure your spot.
+            Thank you for registering. Complete your payment below to secure your spot.
           </p>
 
           {cancelled && (
@@ -88,13 +113,33 @@ export default function SuccessContent() {
 
           {regId ? (
             <div className="rounded-xl p-5 mb-6 text-left" style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}>
-              <p className="font-semibold text-sm mb-1" style={{ color: '#2D6A4F' }}>
-                Complete Payment — 35,000 XAF
-              </p>
-              <p className="text-xs text-neutral-500 mb-3">
-                Pay securely via card. Choose your currency:
-              </p>
+              <div className="flex justify-between items-start mb-1">
+                <p className="font-semibold text-sm" style={{ color: '#2D6A4F' }}>
+                  Complete Payment
+                </p>
+                <span className="text-xs text-neutral-500">35,000 XAF/person</span>
+              </div>
 
+              {/* Price breakdown */}
+              <div className="bg-white rounded-lg p-3 mb-3 text-sm border border-neutral-200">
+                <div className="flex justify-between text-neutral-600">
+                  <span>Your ticket</span>
+                  <span>{fmt(selected.amount)} {selected.suffix}</span>
+                </div>
+                {(guestCount ?? 0) > 0 && (
+                  <div className="flex justify-between text-neutral-600 mt-1">
+                    <span>{guestCount} guest{guestCount === 1 ? '' : 's'} × {fmt(selected.amount)} {selected.suffix}</span>
+                    <span>{fmt(selected.amount * (guestCount ?? 0))} {selected.suffix}</span>
+                  </div>
+                )}
+                <div className="border-t border-neutral-200 mt-2 pt-2 flex justify-between font-bold" style={{ color: '#2D6A4F' }}>
+                  <span>Total ({people} person{people > 1 ? 's' : ''})</span>
+                  <span>{fmt(total)} {selected.suffix}</span>
+                </div>
+              </div>
+
+              {/* Currency selector */}
+              <p className="text-xs text-neutral-500 mb-2">Choose your payment currency:</p>
               <div className="flex gap-2 mb-4">
                 {CURRENCIES.map((c) => (
                   <button
@@ -108,7 +153,7 @@ export default function SuccessContent() {
                     }}
                   >
                     <div className="text-base">{c.flag}</div>
-                    <div className="text-xs font-bold">{c.display}</div>
+                    <div className="text-xs font-bold">{c.perPerson}</div>
                     <div className="text-xs opacity-70">{c.note}</div>
                   </button>
                 ))}
@@ -122,29 +167,16 @@ export default function SuccessContent() {
                 className="w-full rounded-lg py-3 text-white font-semibold text-sm transition-opacity"
                 style={{ background: '#B7960C', opacity: loading ? 0.7 : 1 }}
               >
-                {loading
-                  ? 'Redirecting to Stripe…'
-                  : `Pay ${CURRENCIES.find(c => c.key === currency)?.display} →`}
+                {loading ? 'Redirecting to Stripe…' : `Pay ${fmt(total)} ${selected.suffix} →`}
               </button>
             </div>
           ) : (
             <div className="rounded-xl p-5 mb-6 text-left" style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}>
-              <p className="font-semibold text-sm mb-2" style={{ color: '#2D6A4F' }}>
-                What happens next?
-              </p>
+              <p className="font-semibold text-sm mb-2" style={{ color: '#2D6A4F' }}>What happens next?</p>
               <ul className="text-sm text-neutral-700 space-y-2">
-                <li className="flex gap-2">
-                  <span style={{ color: '#B7960C' }}>1.</span>
-                  <span>Check your email for your confirmation and registration ID.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span style={{ color: '#B7960C' }}>2.</span>
-                  <span>Use the link in your email to complete payment (35,000 XAF).</span>
-                </li>
-                <li className="flex gap-2">
-                  <span style={{ color: '#B7960C' }}>3.</span>
-                  <span>Your spot is confirmed once payment is received.</span>
-                </li>
+                <li className="flex gap-2"><span style={{ color: '#B7960C' }}>1.</span><span>Check your email for your confirmation and registration ID.</span></li>
+                <li className="flex gap-2"><span style={{ color: '#B7960C' }}>2.</span><span>Use the link in your email to complete payment (35,000 XAF/person).</span></li>
+                <li className="flex gap-2"><span style={{ color: '#B7960C' }}>3.</span><span>Your spot is confirmed once payment is received.</span></li>
               </ul>
             </div>
           )}
