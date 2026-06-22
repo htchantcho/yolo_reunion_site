@@ -2,12 +2,15 @@
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 
+export interface GuestPass { name: string; id: string }
+
 interface Props {
   registrationId: string
   fullName: string
+  guests: GuestPass[]
 }
 
-export function StepConfirm({ registrationId, fullName }: Props) {
+export function StepConfirm({ registrationId, fullName, guests }: Props) {
   return (
     <div className="space-y-6 text-center">
       <div className="text-5xl">🎉</div>
@@ -21,12 +24,13 @@ export function StepConfirm({ registrationId, fullName }: Props) {
         </p>
       </div>
 
+      {/* Main pass */}
       <div
-        className="rounded-xl p-6 mx-auto max-w-sm"
+        className="rounded-xl p-5 mx-auto max-w-sm"
         style={{ background: '#F0F7F4', border: '2px solid #2D6A4F' }}
       >
-        <p className="text-xs font-semibold uppercase tracking-widest mb-2" style={{ color: '#2D6A4F' }}>
-          Registration ID
+        <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#2D6A4F' }}>
+          Your Registration ID
         </p>
         <p className="text-2xl font-bold font-mono tracking-wider text-neutral-900">
           {registrationId}
@@ -36,32 +40,43 @@ export function StepConfirm({ registrationId, fullName }: Props) {
         </p>
       </div>
 
-      <div className="rounded-lg p-4 text-left space-y-3" style={{ background: '#FBF7E8', border: '1px solid #F5EBC5' }}>
-        <p className="font-semibold text-sm" style={{ color: '#92660a' }}>
-          Next Steps
-        </p>
-        <ul className="text-sm text-neutral-700 space-y-2">
+      {/* Guest passes */}
+      {guests.length > 0 && (
+        <div className="rounded-xl p-5 mx-auto max-w-sm text-left" style={{ background: '#FBF7E8', border: '1px solid #F5EBC5' }}>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#92660a' }}>
+            Guest Passes
+          </p>
+          <div className="space-y-3">
+            {guests.map((g, i) => (
+              <div key={i} className="flex items-center justify-between gap-3">
+                <span className="text-sm text-neutral-700 truncate">{g.name}</span>
+                <span className="text-sm font-bold font-mono text-neutral-900 whitespace-nowrap">{g.id}</span>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-neutral-500 mt-3">
+            Each guest must present their ID at check-in.
+          </p>
+        </div>
+      )}
+
+      {/* Next steps */}
+      <div className="rounded-lg p-4 text-left space-y-3" style={{ background: '#f9fafb', border: '1px solid #e5e7eb' }}>
+        <p className="font-semibold text-sm text-neutral-700">Next Steps</p>
+        <ul className="text-sm text-neutral-600 space-y-2">
           <li className="flex gap-2">
             <span style={{ color: '#B7960C' }}>1.</span>
-            <span>
-              Payment instructions (35,000 XAF) will be sent to your email within 24 hours.
-            </span>
+            <span>Pay your registration fee below (35,000 XAF per person).</span>
           </li>
           <li className="flex gap-2">
             <span style={{ color: '#B7960C' }}>2.</span>
-            <span>
-              Your registration will be confirmed once payment is received.
-            </span>
+            <span>Your spot is confirmed once payment is received.</span>
           </li>
           <li className="flex gap-2">
             <span style={{ color: '#B7960C' }}>3.</span>
             <span>
               Questions? Email{' '}
-              <a
-                href="mailto:yoloreunion@gmail.com"
-                style={{ color: '#2D6A4F' }}
-                className="underline"
-              >
+              <a href="mailto:yoloreunion@gmail.com" style={{ color: '#2D6A4F' }} className="underline">
                 yoloreunion@gmail.com
               </a>
             </span>
@@ -77,13 +92,20 @@ export function StepConfirm({ registrationId, fullName }: Props) {
           Download Calendar Invite
         </Link>
         <Link
-          href="/"
-          className={buttonVariants({ variant: 'default' })}
-          style={{ background: '#2D6A4F' }}
+          href={`/register/success?regId=${registrationId}`}
+          className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white transition-colors"
+          style={{ background: '#B7960C' }}
         >
-          Back to Home
+          Pay Now →
         </Link>
       </div>
+
+      <Link
+        href="/"
+        className="block text-sm text-neutral-500 underline"
+      >
+        Back to Home
+      </Link>
     </div>
   )
 }

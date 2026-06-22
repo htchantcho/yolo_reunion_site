@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -22,15 +22,18 @@ const schema = z.object({
 })
 type FormData = z.infer<typeof schema>
 
+export interface GuestPass { name: string; id: string }
+
 interface Props {
   verifiedAlumni: VerifiedAlumni | null
   manualVerification: ManualVerificationResult | null
-  onSubmitted: (result: { registrationId: string; fullName: string }) => void
+  onSubmitted: (result: { registrationId: string; fullName: string; guests: GuestPass[] }) => void
 }
 
 export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }: Props) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const [guestNames, setGuestNames] = useState<string[]>([])
 
   const fullName = verifiedAlumni?.fullName ?? manualVerification?.fullName ?? ''
   const classYear = verifiedAlumni?.yearGraduation
@@ -40,13 +43,26 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { guestCount: '0', consentUpdates: false },
   })
 
+  const guestCountRaw = watch('guestCount', '0')
+  const guestCountNum = Math.min(5, Math.max(0, parseInt(guestCountRaw) || 0))
+
+  useEffect(() => {
+    setGuestNames(prev => Array.from({ length: guestCountNum }, (_, i) => prev[i] ?? ''))
+  }, [guestCountNum])
+
   const onSubmit = async (data: FormData) => {
+    if (guestCountNum > 0 && guestNames.some(n => !n.trim())) {
+      setStatus('error')
+      setErrorMsg('Please enter a name for each guest.')
+      return
+    }
     setStatus('loading')
     setErrorMsg('')
     try {
@@ -57,6 +73,7 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
         country: data.country,
         classYear,
         guestCount: Number(data.guestCount),
+        guestNames: guestCountNum > 0 ? guestNames.map(n => n.trim()) : undefined,
         dietaryPrefs: data.dietaryPrefs,
         accessibilityNeeds: data.accessibilityNeeds,
         consentUpdates: data.consentUpdates,
@@ -72,7 +89,11 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error ?? 'Registration failed')
-      onSubmitted({ registrationId: json.registrationId, fullName })
+      onSubmitted({
+        registrationId: json.registrationId,
+        fullName,
+        guests: json.guests ?? [],
+      })
     } catch (err) {
       setStatus('error')
       setErrorMsg(err instanceof Error ? err.message : 'Registration failed. Please try again.')
@@ -98,7 +119,7 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
           Registration Fee: 35,000 XAF per person
         </p>
         <p className="text-neutral-600">
-          Payment instructions will be sent to your email after registration is confirmed.
+          You will choose your payment method (card, MTN MoMo, or Orange Money) after registration.
         </p>
       </div>
 
@@ -150,6 +171,32 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
           )}
         </div>
       </div>
+
+      {guestCountNum > 0 && (
+        <div className="rounded-lg p-4 space-y-3" style={{ background: '#F8F8F8', border: '1px solid #E5E7EB' }}>
+          <p className="text-sm font-semibold text-neutral-700">
+            Guest Names <span className="text-red-500">*</span>
+          </p>
+          <p className="text-xs text-neutral-500">
+            Each guest will receive their own pass ID at the end of registration.
+          </p>
+          {Array.from({ length: guestCountNum }).map((_, i) => (
+            <div key={i}>
+              <Label className="text-xs text-neutral-500">Guest {i + 1}</Label>
+              <Input
+                placeholder={`Full name of guest ${i + 1}`}
+                value={guestNames[i] ?? ''}
+                onChange={(e) => {
+                  const next = [...guestNames]
+                  next[i] = e.target.value
+                  setGuestNames(next)
+                }}
+                className="mt-1"
+              />
+            </div>
+          ))}
+        </div>
+      )}
 
       <div>
         <Label>

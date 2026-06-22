@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { db } from '@/lib/db'
+import { sendPaymentConfirmed } from '@/lib/email'
 import Stripe from 'stripe'
 
-export const config = { api: { bodyParser: false } }
 
 export async function POST(req: NextRequest) {
   const body = await req.text()
@@ -66,6 +66,18 @@ export async function POST(req: NextRequest) {
     ])
 
     console.log(`[Webhook] Payment confirmed for ${registrationId}`)
+
+    const displayAmount = currency === 'XAF'
+      ? amountPaid.toString()
+      : (amountPaid / 100).toFixed(0)
+
+    sendPaymentConfirmed({
+      to: registration.email,
+      fullName: registration.fullName,
+      registrationId,
+      amount: displayAmount,
+      currency,
+    }).catch((err) => console.error('[Webhook] Failed to send payment confirmed email:', err))
   }
 
   return NextResponse.json({ received: true })

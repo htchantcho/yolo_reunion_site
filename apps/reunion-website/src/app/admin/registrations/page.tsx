@@ -51,7 +51,10 @@ export default async function RegistrationsPage({
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
         <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827' }}>Registrations</h1>
-        <span style={{ fontSize: 13, color: '#6b7280' }}>{total} total</span>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <span style={{ fontSize: 13, color: '#6b7280' }}>{total} total</span>
+          <a href='/api/admin/export' style={{ padding: '7px 14px', background: '#2D6A4F', color: 'white', borderRadius: 6, fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>Export CSV</a>
+        </div>
       </div>
 
       {/* Filters */}

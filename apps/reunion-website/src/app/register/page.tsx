@@ -2,16 +2,22 @@
 import { useState } from 'react'
 import { StepIndicator } from '@/components/register/StepIndicator'
 import { StepVerification, type VerifiedAlumni, type ManualVerificationResult } from '@/components/register/StepVerification'
-import { StepDetails } from '@/components/register/StepDetails'
+import { StepDetails, type GuestPass } from '@/components/register/StepDetails'
 import { StepConfirm } from '@/components/register/StepConfirm'
 
 type Step = 1 | 2 | 3
+
+interface RegistrationResult {
+  registrationId: string
+  fullName: string
+  guests: GuestPass[]
+}
 
 export default function RegisterPage() {
   const [step, setStep] = useState<Step>(1)
   const [verifiedAlumni, setVerifiedAlumni] = useState<VerifiedAlumni | null>(null)
   const [manualVerification, setManualVerification] = useState<ManualVerificationResult | null>(null)
-  const [registrationResult, setRegistrationResult] = useState<{ registrationId: string; fullName: string } | null>(null)
+  const [registrationResult, setRegistrationResult] = useState<RegistrationResult | null>(null)
 
   const handleAlumniVerified = (alumni: VerifiedAlumni) => {
     setVerifiedAlumni(alumni)
@@ -23,7 +29,7 @@ export default function RegisterPage() {
     setStep(2)
   }
 
-  const handleSubmitted = (result: { registrationId: string; fullName: string }) => {
+  const handleSubmitted = (result: RegistrationResult) => {
     setRegistrationResult(result)
     setStep(3)
   }
@@ -60,6 +66,7 @@ export default function RegisterPage() {
             <StepConfirm
               registrationId={registrationResult.registrationId}
               fullName={registrationResult.fullName}
+              guests={registrationResult.guests}
             />
           )}
         </div>
