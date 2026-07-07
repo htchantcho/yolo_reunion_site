@@ -4,12 +4,12 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2026-05-27.dahlia',
 })
 
-// Base fee per person: 35,000 XAF
+// Base fee per person: 25,000 XAF
 // EUR is fixed (XAF pegged to EUR at 655.957). USD and NGN are approximate.
 export const CURRENCY_OPTIONS = {
-  eur: { amountPerPerson: 5400,    label: 'EUR', perPersonDisplay: '54 EUR'        },
-  usd: { amountPerPerson: 6000,    label: 'USD', perPersonDisplay: '60 USD'        },
-  ngn: { amountPerPerson: 9500000, label: 'NGN', perPersonDisplay: '95,000 NGN'   },
+  eur: { amountPerPerson: 3800,    label: 'EUR', perPersonDisplay: '38 EUR'        },
+  usd: { amountPerPerson: 4300,    label: 'USD', perPersonDisplay: '43 USD'        },
+  ngn: { amountPerPerson: 6750000, label: 'NGN', perPersonDisplay: '67,500 NGN'   },
 } as const
 
 export type SupportedCurrency = keyof typeof CURRENCY_OPTIONS

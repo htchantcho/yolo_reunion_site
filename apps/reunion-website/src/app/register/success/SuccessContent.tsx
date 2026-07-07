@@ -15,10 +15,10 @@ type Currency = (typeof CURRENCIES)[number]['key']
 type PaymentMethod = 'card' | 'mtn' | 'orange'
 
 // Update these with real numbers before go-live
-const MTN_NUMBER = '+237 6XX XXX XXX'
-const ORANGE_NUMBER = '+237 6XX XXX XXX'
-const WHATSAPP_NUMBER = '+12402716512'
-const XAF_PER_PERSON = 35000
+const MTN_NUMBER = '+237 679 371 356'
+const ORANGE_NUMBER = '+237 691 241 454'
+const WHATSAPP_NUMBER = '+237 683 031 320'
+const XAF_PER_PERSON = 25000
 
 function fmt(n: number) {
   return new Intl.NumberFormat('en').format(n)
@@ -70,7 +70,7 @@ export default function SuccessContent() {
 
   if (paid) {
     return (
-      <div className="py-16 min-h-screen" style={{ background: '#fafafa' }}>
+      <div className="py-16 min-h-screen" style={{ background: '#FAF7F2' }}>
         <div className="max-w-lg mx-auto px-4">
           <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-8 text-center">
             <div className="text-6xl mb-4">🎉</div>
@@ -82,11 +82,11 @@ export default function SuccessContent() {
               on <strong>December 19, 2026</strong> in Douala!
             </p>
             <div className="rounded-xl p-4 mb-6" style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}>
-              <p className="text-sm font-semibold" style={{ color: '#2D6A4F' }}>
+              <p className="text-sm font-semibold" style={{ color: '#8B1A1A' }}>
                 A receipt has been sent to your email.
               </p>
             </div>
-            <Link href="/" className={buttonVariants({ variant: 'default' })} style={{ background: '#2D6A4F' }}>
+            <Link href="/" className={buttonVariants({ variant: 'default' })} style={{ background: '#8B1A1A' }}>
               Back to Home
             </Link>
           </div>
@@ -96,7 +96,7 @@ export default function SuccessContent() {
   }
 
   return (
-    <div className="py-16 min-h-screen" style={{ background: '#fafafa' }}>
+    <div className="py-16 min-h-screen" style={{ background: '#FAF7F2' }}>
       <div className="max-w-lg mx-auto px-4">
         <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-8">
           <div className="text-center mb-6">
@@ -129,7 +129,7 @@ export default function SuccessContent() {
                     <span>{fmt(XAF_PER_PERSON * (guestCount ?? 0))} XAF</span>
                   </div>
                 )}
-                <div className="border-t mt-2 pt-2 flex justify-between font-bold text-sm" style={{ borderColor: '#A8D5C2', color: '#2D6A4F' }}>
+                <div className="border-t mt-2 pt-2 flex justify-between font-bold text-sm" style={{ borderColor: '#A8D5C2', color: '#8B1A1A' }}>
                   <span>Total ({people} person{people > 1 ? 's' : ''})</span>
                   <span>{fmt(xafTotal)} XAF</span>
                 </div>
@@ -150,9 +150,9 @@ export default function SuccessContent() {
                     onClick={() => setPaymentMethod(m.key)}
                     className="rounded-xl border p-3 text-center transition-all"
                     style={{
-                      background: paymentMethod === m.key ? '#2D6A4F' : '#fff',
+                      background: paymentMethod === m.key ? '#8B1A1A' : '#fff',
                       color: paymentMethod === m.key ? '#fff' : '#374151',
-                      borderColor: paymentMethod === m.key ? '#2D6A4F' : '#D1D5DB',
+                      borderColor: paymentMethod === m.key ? '#8B1A1A' : '#D1D5DB',
                     }}
                   >
                     <div className="text-xl mb-1">{m.icon}</div>
@@ -173,9 +173,9 @@ export default function SuccessContent() {
                         onClick={() => setCurrency(c.key)}
                         className="flex-1 rounded-lg border py-2 px-1 text-center transition-all"
                         style={{
-                          background: currency === c.key ? '#2D6A4F' : '#fff',
+                          background: currency === c.key ? '#8B1A1A' : '#fff',
                           color: currency === c.key ? '#fff' : '#374151',
-                          borderColor: currency === c.key ? '#2D6A4F' : '#D1D5DB',
+                          borderColor: currency === c.key ? '#8B1A1A' : '#D1D5DB',
                         }}
                       >
                         <div className="text-base">{c.flag}</div>
@@ -187,7 +187,7 @@ export default function SuccessContent() {
                   <div className="rounded-lg p-3 mb-3 text-xs bg-white border border-neutral-200">
                     <div className="flex justify-between text-neutral-600">
                       <span>{people} person{people > 1 ? 's' : ''} × {fmt(selectedCurrency.perPerson)} {selectedCurrency.label}</span>
-                      <span className="font-bold" style={{ color: '#2D6A4F' }}>
+                      <span className="font-bold" style={{ color: '#8B1A1A' }}>
                         {fmt(cardTotal)} {selectedCurrency.label}
                       </span>
                     </div>
@@ -200,7 +200,7 @@ export default function SuccessContent() {
                     onClick={handlePay}
                     disabled={loading}
                     className="w-full rounded-lg py-3 text-white font-semibold text-sm transition-opacity"
-                    style={{ background: '#B7960C', opacity: loading ? 0.7 : 1 }}
+                    style={{ background: '#8B1A1A', opacity: loading ? 0.7 : 1 }}
                   >
                     {loading
                       ? 'Redirecting to Stripe…'
@@ -226,7 +226,7 @@ export default function SuccessContent() {
                     </div>
                     <div className="p-3">
                       <p className="text-xs text-neutral-400 mb-0.5">Amount</p>
-                      <p className="text-base font-bold" style={{ color: '#2D6A4F' }}>{fmt(xafTotal)} XAF</p>
+                      <p className="text-base font-bold" style={{ color: '#8B1A1A' }}>{fmt(xafTotal)} XAF</p>
                     </div>
                     <div className="p-3">
                       <p className="text-xs text-neutral-400 mb-0.5">Reference (required)</p>
@@ -260,7 +260,7 @@ export default function SuccessContent() {
                     </div>
                     <div className="p-3">
                       <p className="text-xs text-neutral-400 mb-0.5">Amount</p>
-                      <p className="text-base font-bold" style={{ color: '#2D6A4F' }}>{fmt(xafTotal)} XAF</p>
+                      <p className="text-base font-bold" style={{ color: '#8B1A1A' }}>{fmt(xafTotal)} XAF</p>
                     </div>
                     <div className="p-3">
                       <p className="text-xs text-neutral-400 mb-0.5">Reference (required)</p>
@@ -279,18 +279,18 @@ export default function SuccessContent() {
             </>
           ) : (
             <div className="rounded-xl p-5" style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}>
-              <p className="font-semibold text-sm mb-2" style={{ color: '#2D6A4F' }}>What happens next?</p>
+              <p className="font-semibold text-sm mb-2" style={{ color: '#8B1A1A' }}>What happens next?</p>
               <ul className="text-sm text-neutral-700 space-y-2">
-                <li className="flex gap-2"><span style={{ color: '#B7960C' }}>1.</span><span>Check your email for your confirmation and registration ID.</span></li>
-                <li className="flex gap-2"><span style={{ color: '#B7960C' }}>2.</span><span>Use the link in your email to complete payment (35,000 XAF/person).</span></li>
-                <li className="flex gap-2"><span style={{ color: '#B7960C' }}>3.</span><span>Your spot is confirmed once payment is received.</span></li>
+                <li className="flex gap-2"><span style={{ color: '#8B1A1A' }}>1.</span><span>Check your email for your confirmation and registration ID.</span></li>
+                <li className="flex gap-2"><span style={{ color: '#8B1A1A' }}>2.</span><span>Use the link in your email to complete payment (25,000 XAF/person).</span></li>
+                <li className="flex gap-2"><span style={{ color: '#8B1A1A' }}>3.</span><span>Your spot is confirmed once payment is received.</span></li>
               </ul>
             </div>
           )}
 
           <p className="text-sm text-neutral-500 mt-5 text-center">
             Questions? Email{' '}
-            <a href="mailto:yoloreunion@gmail.com" style={{ color: '#2D6A4F' }} className="underline">
+            <a href="mailto:yoloreunion@gmail.com" style={{ color: '#8B1A1A' }} className="underline">
               yoloreunion@gmail.com
             </a>
           </p>

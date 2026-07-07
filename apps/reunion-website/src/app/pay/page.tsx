@@ -37,7 +37,7 @@ export default function PayPage() {
   }
 
   return (
-    <div className="py-20 min-h-screen" style={{ background: '#fafafa' }}>
+    <div className="py-20 min-h-screen" style={{ background: '#FAF7F2' }}>
       <div className="max-w-md mx-auto px-4">
         <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-8">
           <div className="text-center mb-8">
@@ -77,7 +77,7 @@ export default function PayPage() {
               type="submit"
               disabled={loading || !regId.trim()}
               className="w-full py-3 rounded-lg text-white font-semibold text-sm transition-opacity"
-              style={{ background: '#2D6A4F', opacity: loading || !regId.trim() ? 0.6 : 1 }}
+              style={{ background: '#8B1A1A', opacity: loading || !regId.trim() ? 0.6 : 1 }}
             >
               {loading ? 'Looking up…' : 'Continue to Payment →'}
             </button>
@@ -85,7 +85,7 @@ export default function PayPage() {
 
           <div className="mt-6 pt-6 border-t border-neutral-200 text-center">
             <p className="text-sm text-neutral-500 mb-2">Don&apos;t have a registration yet?</p>
-            <Link href="/register" className="text-sm font-semibold" style={{ color: '#2D6A4F' }}>
+            <Link href="/register" className="text-sm font-semibold" style={{ color: '#8B1A1A' }}>
               Register for the Reunion →
             </Link>
           </div>
@@ -93,7 +93,7 @@ export default function PayPage() {
           <div className="mt-4 text-center">
             <p className="text-xs text-neutral-400">
               Questions?{' '}
-              <a href="mailto:yoloreunion@gmail.com" style={{ color: '#2D6A4F' }}>
+              <a href="mailto:yoloreunion@gmail.com" style={{ color: '#8B1A1A' }}>
                 yoloreunion@gmail.com
               </a>
             </p>
@@ -101,7 +101,7 @@ export default function PayPage() {
         </div>
 
         <div className="mt-6 rounded-xl p-4 text-center" style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}>
-          <p className="text-sm font-semibold mb-1" style={{ color: '#2D6A4F' }}>Registration fee: 35,000 XAF / person</p>
+          <p className="text-sm font-semibold mb-1" style={{ color: '#8B1A1A' }}>Registration fee: 25,000 XAF / person</p>
           <p className="text-xs" style={{ color: '#047857' }}>We accept card (Stripe), MTN MoMo &amp; Orange Money</p>
         </div>
       </div>

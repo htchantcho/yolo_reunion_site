@@ -35,7 +35,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="py-12 min-h-screen" style={{ background: '#fafafa' }}>
+    <div className="py-12 min-h-screen" style={{ background: '#FAF7F2' }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-8">
           <h1 className="font-playfair text-3xl sm:text-4xl font-bold text-neutral-900 mb-2">
@@ -73,7 +73,7 @@ export default function RegisterPage() {
 
         <p className="text-center text-xs text-neutral-500 mt-6">
           Need help? Email{' '}
-          <a href="mailto:yoloreunion@gmail.com" style={{ color: '#2D6A4F' }}>
+          <a href="mailto:yoloreunion@gmail.com" style={{ color: '#8B1A1A' }}>
             yoloreunion@gmail.com
           </a>
         </p>

@@ -37,6 +37,7 @@ export default async function RegistrationDetailPage({ params }: { params: Promi
     ['Guest IDs', guestDetails?.ids?.join(', ') ?? '—'],
     ['Dietary Preferences', reg.dietaryPrefs ?? '—'],
     ['Accessibility Needs', reg.accessibilityNeeds ?? '—'],
+    ['Name Correction Note', (reg as {nameCorrection?: string|null}).nameCorrection ?? '—'],
     ['Consent to Updates', reg.consentUpdates ? 'Yes' : 'No'],
     ['Status', reg.status],
     ['Payment Status', reg.paymentStatus],
@@ -78,7 +79,27 @@ export default async function RegistrationDetailPage({ params }: { params: Promi
             <div style={{ background: '#f0f8f4', borderRadius: 10, padding: '20px 24px', border: '1px solid #a7f3d0' }}>
               <h2 style={{ fontSize: 14, fontWeight: 600, color: '#065f46', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 12 }}>Linked Alumni Record</h2>
               <p style={{ fontSize: 14, color: '#065f46', margin: '0 0 4px', fontWeight: 600 }}>{reg.alumniRecord.fullName}</p>
-              <p style={{ fontSize: 13, color: '#047857', margin: 0 }}>Batch {reg.alumniRecord.batch}</p>
+              <p style={{ fontSize: 13, color: '#047857', margin: '0 0 8px' }}>Batch {reg.alumniRecord.batch}</p>
+              <a href={`/admin/alumni/${reg.alumniRecord.id}`}
+                style={{ fontSize: 12, color: '#2D6A4F', textDecoration: 'underline' }}>
+                Edit alumni record →
+              </a>
+            </div>
+          )}
+          {(reg as {nameCorrection?: string|null}).nameCorrection && (
+            <div style={{ background: '#FFFBEB', borderRadius: 10, padding: '16px 20px', border: '2px solid #FCD34D' }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: '#92400E', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 6 }}>
+                ⚠ Name Correction Requested
+              </p>
+              <p style={{ fontSize: 14, color: '#78350F', margin: '0 0 10px', fontStyle: 'italic' }}>
+                &ldquo;{(reg as {nameCorrection?: string|null}).nameCorrection}&rdquo;
+              </p>
+              {reg.alumniRecord && (
+                <a href={`/admin/alumni/${reg.alumniRecord.id}`}
+                  style={{ fontSize: 13, fontWeight: 600, color: '#92400E', textDecoration: 'underline' }}>
+                  Update alumni record →
+                </a>
+              )}
             </div>
           )}
 

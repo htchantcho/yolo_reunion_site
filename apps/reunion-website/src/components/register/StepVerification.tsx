@@ -111,7 +111,7 @@ export function StepVerification({ onAlumniVerified, onManualVerification }: Pro
         </p>
         <p className="text-sm text-neutral-500">
           Questions? Email{' '}
-          <a href="mailto:yoloreunion@gmail.com" style={{ color: '#2D6A4F' }}>
+          <a href="mailto:yoloreunion@gmail.com" style={{ color: '#8B1A1A' }}>
             yoloreunion@gmail.com
           </a>
         </p>
@@ -162,7 +162,7 @@ export function StepVerification({ onAlumniVerified, onManualVerification }: Pro
           type="submit"
           disabled={searching}
           className="w-full py-3 rounded-lg font-semibold text-white transition-all disabled:opacity-60"
-          style={{ background: '#2D6A4F' }}
+          style={{ background: '#8B1A1A' }}
         >
           {searching ? 'Searching...' : '🔍 Search Alumni Database'}
         </button>
@@ -194,7 +194,7 @@ export function StepVerification({ onAlumniVerified, onManualVerification }: Pro
               <button
                 onClick={() => setView('search')}
                 className="underline font-medium"
-                style={{ color: '#2D6A4F' }}
+                style={{ color: '#8B1A1A' }}
               >
                 search again
               </button>{' '}

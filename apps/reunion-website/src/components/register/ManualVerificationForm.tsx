@@ -56,7 +56,7 @@ export function ManualVerificationForm({ onSubmitted }: Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div
         className="rounded-lg p-4 text-sm"
-        style={{ background: '#FBF7E8', border: '1px solid #F5EBC5', color: '#92660a' }}
+        style={{ background: '#FBF7E8', border: '1px solid #F5EBC5', color: '#7A1A1A' }}
       >
         <strong>Not in our database?</strong> Fill out this form and our team will verify your alumni
         status within 48 hours.
@@ -111,7 +111,7 @@ export function ManualVerificationForm({ onSubmitted }: Props) {
         type="submit"
         disabled={status === 'loading'}
         className="w-full py-3 rounded-lg font-semibold text-white transition-all disabled:opacity-60"
-        style={{ background: '#2D6A4F' }}
+        style={{ background: '#8B1A1A' }}
       >
         {status === 'loading' ? 'Submitting...' : 'Submit Verification Request'}
       </button>

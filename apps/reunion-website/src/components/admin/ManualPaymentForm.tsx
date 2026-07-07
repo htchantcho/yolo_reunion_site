@@ -11,7 +11,7 @@ const METHODS = [
 ]
 
 const CURRENCY_DEFAULTS: Record<string, number> = {
-  XAF: 35000, EUR: 54, USD: 60, NGN: 95000,
+  XAF: 25000, EUR: 38, USD: 43, NGN: 67500,
 }
 
 // EUR/USD/NGN are stored in smallest unit (cents) to match Stripe; XAF has no subunit
@@ -23,7 +23,7 @@ export default function ManualPaymentForm({ regId }: { regId: string }) {
   const [open, setOpen] = useState(false)
   const [method, setMethod] = useState('MTN_MOMO')
   const [currency, setCurrency] = useState('XAF')
-  const [amount, setAmount] = useState(35000)
+  const [amount, setAmount] = useState(25000)
   const [ref, setRef] = useState('')
   const [notes, setNotes] = useState('')
   const [loading, setLoading] = useState(false)
@@ -32,7 +32,7 @@ export default function ManualPaymentForm({ regId }: { regId: string }) {
 
   function handleCurrencyChange(c: string) {
     setCurrency(c)
-    setAmount(CURRENCY_DEFAULTS[c] ?? 35000)
+    setAmount(CURRENCY_DEFAULTS[c] ?? 25000)
   }
 
   async function submit(e: React.FormEvent) {

@@ -22,7 +22,7 @@ export function AlumniSearchResult({ record, onSelect }: Props) {
       style={{ borderColor: '#e5e7eb' }}
       onMouseEnter={e => {
         const el = e.currentTarget as HTMLDivElement
-        el.style.borderColor = '#2D6A4F'
+        el.style.borderColor = '#8B1A1A'
         el.style.background = '#f0f7f4'
       }}
       onMouseLeave={e => {
@@ -50,7 +50,7 @@ export function AlumniSearchResult({ record, onSelect }: Props) {
         <button
           onClick={() => onSelect(record.id)}
           className="flex-shrink-0 px-4 py-1.5 rounded-lg text-sm font-semibold text-white transition-all"
-          style={{ background: '#2D6A4F' }}
+          style={{ background: '#8B1A1A' }}
         >
           This is me
         </button>

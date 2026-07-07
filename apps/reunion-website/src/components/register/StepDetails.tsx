@@ -34,6 +34,8 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const [guestNames, setGuestNames] = useState<string[]>([])
+  const [nameCorrection, setNameCorrection] = useState('')
+  const [showNameCorrection, setShowNameCorrection] = useState(false)
 
   const fullName = verifiedAlumni?.fullName ?? manualVerification?.fullName ?? ''
   const classYear = verifiedAlumni?.yearGraduation
@@ -82,6 +84,9 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
       if (verifiedAlumni?.alumniRecordId) {
         body.alumniRecordId = verifiedAlumni.alumniRecordId
       }
+      if (nameCorrection.trim()) {
+        body.nameCorrection = nameCorrection.trim()
+      }
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -91,7 +96,7 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
       if (!res.ok) throw new Error(json.error ?? 'Registration failed')
       onSubmitted({
         registrationId: json.registrationId,
-        fullName,
+        fullName: json.fullName ?? fullName,
         guests: json.guests ?? [],
       })
     } catch (err) {
@@ -115,8 +120,8 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
         className="rounded-lg p-4 text-sm"
         style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}
       >
-        <p className="font-semibold mb-0.5" style={{ color: '#2D6A4F' }}>
-          Registration Fee: 35,000 XAF per person
+        <p className="font-semibold mb-0.5" style={{ color: '#8B1A1A' }}>
+          Registration Fee: 25,000 XAF per person
         </p>
         <p className="text-neutral-600">
           You will choose your payment method (card, MTN MoMo, or Orange Money) after registration.
@@ -136,6 +141,41 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
             {classYear || <span className="italic">Not set</span>}
           </div>
         </div>
+        {verifiedAlumni && (
+          <div className="col-span-1 sm:col-span-2">
+            {!showNameCorrection ? (
+              <button
+                type="button"
+                onClick={() => setShowNameCorrection(true)}
+                className="text-xs underline"
+                style={{ color: '#8B1A1A' }}
+              >
+                Name misspelled in our database? Add a correction note
+              </button>
+            ) : (
+              <div className="rounded-lg p-3 space-y-2" style={{ background: '#FFFBEB', border: '1px solid #FCD34D' }}>
+                <p className="text-xs font-semibold" style={{ color: '#92400E' }}>
+                  Name correction note{' '}
+                  <span className="font-normal text-neutral-500">(optional — admin will update the record)</span>
+                </p>
+                <input
+                  type="text"
+                  value={nameCorrection}
+                  onChange={e => setNameCorrection(e.target.value.toUpperCase())}
+                  placeholder={`e.g. ${fullName}`}
+                  className="w-full rounded-md border border-amber-300 bg-white px-3 py-1.5 text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+                />
+                <button
+                  type="button"
+                  onClick={() => { setShowNameCorrection(false); setNameCorrection('') }}
+                  className="text-xs text-neutral-400 underline"
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+          </div>
+        )}
         <div>
           <Label>
             Email Address <span className="text-red-500">*</span>
@@ -232,12 +272,16 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
           <input type="checkbox" {...register('agreedToTerms')} className="mt-0.5 w-4 h-4" />
           <span className="text-sm text-neutral-700">
             I agree to the{' '}
-            <a href="/terms" target="_blank" style={{ color: '#2D6A4F' }} className="underline">
+            <a href="/terms" target="_blank" style={{ color: '#8B1A1A' }} className="underline">
               Terms of Use
-            </a>{' '}
-            and{' '}
-            <a href="/privacy" target="_blank" style={{ color: '#2D6A4F' }} className="underline">
+            </a>
+            ,{' '}
+            <a href="/privacy" target="_blank" style={{ color: '#8B1A1A' }} className="underline">
               Privacy Policy
+            </a>
+            , and{' '}
+            <a href="/agreement" target="_blank" style={{ color: '#8B1A1A' }} className="underline">
+              Registration Agreement
             </a>
             . <span className="text-red-500">*</span>
           </span>
@@ -257,7 +301,7 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
         type="submit"
         disabled={status === 'loading'}
         className="w-full py-3 rounded-lg font-semibold text-white transition-all disabled:opacity-60"
-        style={{ background: '#2D6A4F' }}
+        style={{ background: '#8B1A1A' }}
       >
         {status === 'loading' ? 'Submitting...' : 'Complete Registration →'}
       </button>

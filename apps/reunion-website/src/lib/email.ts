@@ -90,7 +90,7 @@ export async function sendRegistrationConfirmation({
                   </tr>
                   <tr>
                     <td style="color:#6b7280">Fee</td>
-                    <td style="font-weight:bold;color:#333">35,000 XAF / person</td>
+                    <td style="font-weight:bold;color:#333">25,000 XAF / person</td>
                   </tr>
                   ${guestRows}
                 </table>
@@ -105,7 +105,7 @@ export async function sendRegistrationConfirmation({
             <table cellpadding="0" cellspacing="0" style="margin:0 0 20px">
               <tr>
                 <td style="background:#B7960C;border-radius:6px;padding:14px 28px">
-                  <a href="${payUrl}" style="color:#ffffff;font-size:15px;font-weight:bold;text-decoration:none">Pay Now — 35,000 XAF / person →</a>
+                  <a href="${payUrl}" style="color:#ffffff;font-size:15px;font-weight:bold;text-decoration:none">Pay Now — 25,000 XAF / person →</a>
                 </td>
               </tr>
             </table>

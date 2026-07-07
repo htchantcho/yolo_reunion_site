@@ -64,7 +64,7 @@ export default async function AlumniPage({
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
           <thead>
             <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-              {['Name', 'Batch', 'Grad Year', 'Email', 'Phone', 'Status'].map(h => (
+              {['Name', 'Batch', 'Grad Year', 'Email', 'Phone', 'Status', ''].map(h => (
                 <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>{h}</th>
               ))}
             </tr>
@@ -75,7 +75,12 @@ export default async function AlumniPage({
             )}
             {alumni.map(a => (
               <tr key={a.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
-                <td style={{ padding: '10px 14px', color: '#111827', fontWeight: 500 }}>{a.fullName}{a.formerName && <span style={{ color: '#9ca3af', fontSize: 11, marginLeft: 6 }}>({a.formerName})</span>}</td>
+                <td style={{ padding: '10px 14px', fontWeight: 500 }}>
+                  <a href={`/admin/alumni/${a.id}`} style={{ color: '#111827', textDecoration: 'none' }}>
+                    {a.fullName}
+                  </a>
+                  {a.formerName && <span style={{ color: '#9ca3af', fontSize: 11, marginLeft: 6 }}>({a.formerName})</span>}
+                </td>
                 <td style={{ padding: '10px 14px', color: '#374151' }}>{a.batch ?? '—'}</td>
                 <td style={{ padding: '10px 14px', color: '#374151' }}>{a.yearGraduation ?? '—'}</td>
                 <td style={{ padding: '10px 14px', color: '#6b7280' }}>{a.email ?? '—'}</td>
@@ -84,6 +89,9 @@ export default async function AlumniPage({
                   <span style={{ color: VER_COLORS[a.verificationStatus], fontWeight: 600, fontSize: 11 }}>
                     {a.verificationStatus}
                   </span>
+                </td>
+                <td style={{ padding: '10px 14px' }}>
+                  <a href={`/admin/alumni/${a.id}`} style={{ fontSize: 12, color: '#2D6A4F', textDecoration: 'underline' }}>Edit</a>
                 </td>
               </tr>
             ))}

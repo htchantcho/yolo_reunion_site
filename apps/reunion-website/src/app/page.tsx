@@ -3,6 +3,7 @@ import { CountdownTimer } from '@/components/home/CountdownTimer'
 import { EventInfo } from '@/components/home/EventInfo'
 import { Objectives } from '@/components/home/Objectives'
 import { Testimonials } from '@/components/home/Testimonials'
+import { Sponsors } from '@/components/home/Sponsors'
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 export default function HomePage() {
@@ -13,6 +14,7 @@ export default function HomePage() {
       <EventInfo />
       <Objectives />
       <Testimonials />
+      <Sponsors />
       <section className="py-16 text-white text-center" style={{background:'linear-gradient(135deg, #7A1616 0%, #8B1A1A 100%)'}}>
         <div className="max-w-2xl mx-auto px-4">
           <h2 className="font-playfair text-3xl font-bold mb-4">Ready to Join the Reunion?</h2>

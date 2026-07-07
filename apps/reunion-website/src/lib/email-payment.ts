@@ -31,13 +31,13 @@ export async function sendPaymentInstructions({
         <tr><td style="padding:28px">
           <p style="color:#333;font-size:15px;margin:0 0 16px">Dear <strong>${fullName}</strong>,</p>
           <p style="color:#555;font-size:14px;line-height:1.7;margin:0 0 20px">
-            Your SHEDESA Reunion 2026 registration has been verified. Please complete your payment of <strong>35,000 XAF</strong> using one of the methods below.
+            Your SHEDESA Reunion 2026 registration has been verified. Please complete your payment of <strong>25,000 XAF</strong> using one of the methods below.
           </p>
           <div style="background:#f9f9f9;border-radius:8px;padding:20px;margin:0 0 20px">
             <p style="color:#2D6A4F;font-weight:bold;font-size:13px;margin:0 0 12px;text-transform:uppercase;letter-spacing:0.5px">Your Registration ID</p>
             <p style="font-family:monospace;font-size:22px;font-weight:bold;color:#2D6A4F;margin:0">${registrationId}</p>
           </div>
-          <p style="color:#333;font-size:14px;font-weight:bold;margin:0 0 12px">Payment Methods — 35,000 XAF</p>
+          <p style="color:#333;font-size:14px;font-weight:bold;margin:0 0 12px">Payment Methods — 25,000 XAF</p>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px">
             <tr><td style="padding:12px;background:#fff8e1;border-radius:8px;margin-bottom:10px;display:block">
               <p style="color:#92400e;font-weight:bold;font-size:13px;margin:0 0 4px">MTN Mobile Money</p>

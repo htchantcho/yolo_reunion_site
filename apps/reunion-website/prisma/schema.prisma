@@ -88,6 +88,7 @@ model Registration {
   guestDetails       Json?
   dietaryPrefs       String?
   accessibilityNeeds String?
+  nameCorrection     String?
   consentUpdates     Boolean            @default(false)
   agreedToTerms      Boolean            @default(false)
   status             RegistrationStatus @default(PENDING_VERIFICATION)
@@ -149,6 +150,7 @@ model ProgrammeItem {
   description String?
   speaker     String?
   location    String?
+  day         Int      @default(1)
   order       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

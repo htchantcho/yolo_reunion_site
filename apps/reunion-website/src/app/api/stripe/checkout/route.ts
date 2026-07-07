@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
             unit_amount: amountPerPerson,
             product_data: {
               name: 'SHEDESA Reunion 2026 — Registration Fee',
-              description: `35,000 XAF/person × ${people} person${people > 1 ? 's' : ''}${guestLine} · Ref: ${registrationId}`,
+              description: `25,000 XAF/person × ${people} person${people > 1 ? 's' : ''}${guestLine} · Ref: ${registrationId}`,
             },
           },
           quantity: people,

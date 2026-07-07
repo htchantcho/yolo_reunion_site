@@ -11,6 +11,7 @@ const schema = z.object({
   classYear: z.string().min(2),
   guestCount: z.coerce.number().int().min(0).max(5).default(0),
   guestNames: z.array(z.string().min(1)).max(5).optional(),
+  nameCorrection: z.string().max(300).optional(),
   dietaryPrefs: z.string().optional(),
   accessibilityNeeds: z.string().optional(),
   consentUpdates: z.boolean(),
@@ -60,6 +61,11 @@ export async function POST(req: NextRequest) {
       attempts++
     }
 
+    // Apply name correction (uppercase, update alumni record in transaction)
+    const correctedName = body.nameCorrection
+      ? body.nameCorrection.trim().toUpperCase()
+      : null
+
     // Generate one guest pass ID per guest name
     const guestIds = (body.guestNames ?? []).map(() => generateGuestId())
     const guestDetails =
@@ -76,7 +82,7 @@ export async function POST(req: NextRequest) {
       const reg = await tx.registration.create({
         data: {
           registrationId,
-          fullName: body.fullName,
+          fullName: correctedName ?? body.fullName,
           email: body.email,
           phone: body.phone,
           country: body.country,
@@ -87,6 +93,7 @@ export async function POST(req: NextRequest) {
           accessibilityNeeds: body.accessibilityNeeds,
           consentUpdates: body.consentUpdates,
           agreedToTerms: body.agreedToTerms,
+          nameCorrection: body.nameCorrection,
           alumniRecordId: body.alumniRecordId,
           status,
           paymentStatus: 'PENDING',
@@ -97,6 +104,7 @@ export async function POST(req: NextRequest) {
         await tx.alumniRecord.update({
           where: { id: body.alumniRecordId },
           data: {
+            ...(correctedName ? { fullName: correctedName } : {}),
             email: body.email,
             phone: body.phone,
             country: body.country,
@@ -112,9 +120,11 @@ export async function POST(req: NextRequest) {
 
     const guests = (body.guestNames ?? []).map((name, i) => ({ name, id: guestIds[i] }))
 
+    const effectiveFullName = correctedName ?? registration.fullName
+
     sendRegistrationConfirmation({
       to: registration.email,
-      fullName: registration.fullName,
+      fullName: effectiveFullName,
       registrationId: registration.registrationId,
       classYear: registration.classYear,
       guests,
@@ -133,6 +143,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       registrationId: registration.registrationId,
+      fullName: effectiveFullName,
       status: registration.status,
       guests,
     })

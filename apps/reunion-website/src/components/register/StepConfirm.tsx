@@ -27,9 +27,9 @@ export function StepConfirm({ registrationId, fullName, guests }: Props) {
       {/* Main pass */}
       <div
         className="rounded-xl p-5 mx-auto max-w-sm"
-        style={{ background: '#F0F7F4', border: '2px solid #2D6A4F' }}
+        style={{ background: '#F0F7F4', border: '2px solid #8B1A1A' }}
       >
-        <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#2D6A4F' }}>
+        <p className="text-xs font-semibold uppercase tracking-widest mb-1" style={{ color: '#8B1A1A' }}>
           Your Registration ID
         </p>
         <p className="text-2xl font-bold font-mono tracking-wider text-neutral-900">
@@ -43,7 +43,7 @@ export function StepConfirm({ registrationId, fullName, guests }: Props) {
       {/* Guest passes */}
       {guests.length > 0 && (
         <div className="rounded-xl p-5 mx-auto max-w-sm text-left" style={{ background: '#FBF7E8', border: '1px solid #F5EBC5' }}>
-          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#92660a' }}>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: '#7A1A1A' }}>
             Guest Passes
           </p>
           <div className="space-y-3">
@@ -65,18 +65,18 @@ export function StepConfirm({ registrationId, fullName, guests }: Props) {
         <p className="font-semibold text-sm text-neutral-700">Next Steps</p>
         <ul className="text-sm text-neutral-600 space-y-2">
           <li className="flex gap-2">
-            <span style={{ color: '#B7960C' }}>1.</span>
-            <span>Pay your registration fee below (35,000 XAF per person).</span>
+            <span style={{ color: '#8B1A1A' }}>1.</span>
+            <span>Pay your registration fee below (25,000 XAF per person).</span>
           </li>
           <li className="flex gap-2">
-            <span style={{ color: '#B7960C' }}>2.</span>
+            <span style={{ color: '#8B1A1A' }}>2.</span>
             <span>Your spot is confirmed once payment is received.</span>
           </li>
           <li className="flex gap-2">
-            <span style={{ color: '#B7960C' }}>3.</span>
+            <span style={{ color: '#8B1A1A' }}>3.</span>
             <span>
               Questions? Email{' '}
-              <a href="mailto:yoloreunion@gmail.com" style={{ color: '#2D6A4F' }} className="underline">
+              <a href="mailto:yoloreunion@gmail.com" style={{ color: '#8B1A1A' }} className="underline">
                 yoloreunion@gmail.com
               </a>
             </span>
@@ -94,7 +94,7 @@ export function StepConfirm({ registrationId, fullName, guests }: Props) {
         <Link
           href={`/register/success?regId=${registrationId}`}
           className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-semibold text-white transition-colors"
-          style={{ background: '#B7960C' }}
+          style={{ background: '#8B1A1A' }}
         >
           Pay Now →
         </Link>
