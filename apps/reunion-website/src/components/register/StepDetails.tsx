@@ -36,11 +36,14 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
   const [guestNames, setGuestNames] = useState<string[]>([])
   const [nameCorrection, setNameCorrection] = useState('')
   const [showNameCorrection, setShowNameCorrection] = useState(false)
+  const [classYearInput, setClassYearInput] = useState('')
 
   const fullName = verifiedAlumni?.fullName ?? manualVerification?.fullName ?? ''
   const classYear = verifiedAlumni?.yearGraduation
     ? String(verifiedAlumni.yearGraduation)
     : verifiedAlumni?.batch ?? ''
+
+  const isMissingYear = verifiedAlumni && !classYear
 
   const {
     register,
@@ -65,15 +68,21 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
       setErrorMsg('Please enter a name for each guest.')
       return
     }
+    if (isMissingYear && !classYearInput.trim()) {
+      setStatus('error')
+      setErrorMsg('Please enter your batch / graduation year.')
+      return
+    }
     setStatus('loading')
     setErrorMsg('')
     try {
+      const effectiveClassYear = classYear || classYearInput.trim()
       const body: Record<string, unknown> = {
         fullName,
         email: data.email,
         phone: data.phone,
         country: data.country,
-        classYear,
+        classYear: effectiveClassYear,
         guestCount: Number(data.guestCount),
         guestNames: guestCountNum > 0 ? guestNames.map(n => n.trim()) : undefined,
         dietaryPrefs: data.dietaryPrefs,
@@ -86,6 +95,9 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
       }
       if (nameCorrection.trim()) {
         body.nameCorrection = nameCorrection.trim()
+      }
+      if (isMissingYear && classYearInput.trim()) {
+        body.batchCorrection = classYearInput.trim()
       }
       const res = await fetch('/api/register', {
         method: 'POST',
@@ -136,10 +148,27 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
           </div>
         </div>
         <div>
-          <Label>Graduation Year / Batch</Label>
-          <div className="mt-1 h-8 w-full rounded-lg border border-input bg-muted px-2.5 py-1 text-sm text-muted-foreground flex items-center">
-            {classYear || <span className="italic">Not set</span>}
-          </div>
+          <Label>
+            Batch / Graduation Year
+            {isMissingYear && <span className="text-red-500"> *</span>}
+          </Label>
+          {isMissingYear ? (
+            <>
+              <Input
+                value={classYearInput}
+                onChange={e => setClassYearInput(e.target.value)}
+                placeholder="e.g. 1998"
+                className="mt-1"
+              />
+              <p className="text-xs text-amber-600 mt-1">
+                Not found in our records — please enter your batch or graduation year.
+              </p>
+            </>
+          ) : (
+            <div className="mt-1 h-8 w-full rounded-lg border border-input bg-muted px-2.5 py-1 text-sm text-muted-foreground flex items-center">
+              {classYear}
+            </div>
+          )}
         </div>
         {verifiedAlumni && (
           <div className="col-span-1 sm:col-span-2">

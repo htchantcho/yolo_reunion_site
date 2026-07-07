@@ -12,6 +12,7 @@ const schema = z.object({
   guestCount: z.coerce.number().int().min(0).max(5).default(0),
   guestNames: z.array(z.string().min(1)).max(5).optional(),
   nameCorrection: z.string().max(300).optional(),
+  batchCorrection: z.string().max(20).optional(),
   dietaryPrefs: z.string().optional(),
   accessibilityNeeds: z.string().optional(),
   consentUpdates: z.boolean(),
@@ -61,19 +62,14 @@ export async function POST(req: NextRequest) {
       attempts++
     }
 
-    // Apply name correction (uppercase, update alumni record in transaction)
     const correctedName = body.nameCorrection
       ? body.nameCorrection.trim().toUpperCase()
       : null
 
-    // Generate one guest pass ID per guest name
     const guestIds = (body.guestNames ?? []).map(() => generateGuestId())
     const guestDetails =
       body.guestNames && body.guestNames.length > 0
-        ? {
-            names: body.guestNames,
-            ids: guestIds,
-          }
+        ? { names: body.guestNames, ids: guestIds }
         : undefined
 
     const status = body.alumniRecordId ? 'VERIFIED' : 'PENDING_VERIFICATION'
@@ -101,6 +97,10 @@ export async function POST(req: NextRequest) {
       })
 
       if (body.alumniRecordId) {
+        const existing = await tx.alumniRecord.findUnique({
+          where: { id: body.alumniRecordId },
+          select: { batch: true, yearGraduation: true },
+        })
         await tx.alumniRecord.update({
           where: { id: body.alumniRecordId },
           data: {
@@ -109,6 +109,10 @@ export async function POST(req: NextRequest) {
             phone: body.phone,
             country: body.country,
             verificationStatus: 'VERIFIED',
+            // Only fill in batch if the record had none and the user provided one
+            ...(!existing?.batch && !existing?.yearGraduation && body.batchCorrection
+              ? { batch: body.batchCorrection.trim() }
+              : {}),
           },
         })
       }
