@@ -10,6 +10,11 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
   const { id } = await params
   const reg = await db.registration.findUnique({ where: { id } })
   if (!reg) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  await db.registration.delete({ where: { id } })
+
+  await db.$transaction([
+    db.payment.deleteMany({ where: { registrationId: id } }),
+    db.registration.delete({ where: { id } }),
+  ])
+
   return NextResponse.json({ success: true })
 }
