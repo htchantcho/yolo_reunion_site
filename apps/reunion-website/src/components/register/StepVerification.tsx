@@ -141,6 +141,9 @@ export function StepVerification({ onAlumniVerified, onManualVerification }: Pro
             className="mt-1"
           />
           {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+          <p className="text-xs text-neutral-500 mt-1">
+            Use only one of your names to search — avoid entering your full name as records may be stored under a single name.
+          </p>
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div>
