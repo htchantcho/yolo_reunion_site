@@ -103,7 +103,7 @@ export default async function RegistrationDetailPage({ params }: { params: Promi
             </div>
           )}
 
-          <RegistrationActions regId={reg.id} currentStatus={reg.status as never} />
+          <RegistrationActions regId={reg.id} currentStatus={reg.status as never} registrantName={reg.fullName} />
 
           {/* Payment history */}
           {reg.payments.length > 0 && (

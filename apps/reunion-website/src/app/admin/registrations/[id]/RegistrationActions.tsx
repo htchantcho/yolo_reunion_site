@@ -8,12 +8,15 @@ type Status = typeof STATUSES[number]
 export default function RegistrationActions({
   regId,
   currentStatus,
+  registrantName,
 }: {
   regId: string
   currentStatus: Status
+  registrantName: string
 }) {
   const [status, setStatus] = useState<Status>(currentStatus)
   const [loading, setLoading] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
   const [msg, setMsg] = useState('')
   const router = useRouter()
@@ -47,6 +50,21 @@ export default function RegistrationActions({
     setLoading(false)
   }
 
+  async function handleDelete() {
+    if (!confirm(`Delete registration for "${registrantName}"? This cannot be undone.`)) return
+    setDeleting(true)
+    setMsg('')
+    const res = await fetch(`/api/admin/registrations/${regId}`, { method: 'DELETE' })
+    if (res.ok) {
+      router.push('/admin/registrations')
+      router.refresh()
+    } else {
+      const d = await res.json()
+      setMsg(d.error ?? 'Delete failed')
+      setDeleting(false)
+    }
+  }
+
   return (
     <div style={{ background: 'white', borderRadius: 10, padding: '20px 24px', boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
       <h2 style={{ fontSize: 14, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 16 }}>Actions</h2>
@@ -74,7 +92,7 @@ export default function RegistrationActions({
         </div>
       </div>
 
-      <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: 16 }}>
+      <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: 16, marginBottom: 16 }}>
         <label style={{ fontSize: 13, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 8 }}>Payment Email</label>
         <button onClick={sendPaymentEmail} disabled={loading || emailSent}
           style={{
@@ -86,6 +104,21 @@ export default function RegistrationActions({
         </button>
         <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 6 }}>
           Sends MTN/Orange Money payment instructions to the registrant.
+        </p>
+      </div>
+
+      <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: 16 }}>
+        <label style={{ fontSize: 13, fontWeight: 600, color: '#dc2626', display: 'block', marginBottom: 8 }}>Danger Zone</label>
+        <button onClick={handleDelete} disabled={deleting}
+          style={{
+            padding: '8px 18px', background: 'white', color: '#dc2626',
+            border: '1px solid #fca5a5', borderRadius: 6, fontWeight: 600, fontSize: 13,
+            cursor: deleting ? 'not-allowed' : 'pointer', opacity: deleting ? 0.7 : 1,
+          }}>
+          {deleting ? 'Deleting…' : 'Delete Registration'}
+        </button>
+        <p style={{ fontSize: 11, color: '#9ca3af', marginTop: 6 }}>
+          Permanently removes this registration record.
         </p>
       </div>
     </div>
