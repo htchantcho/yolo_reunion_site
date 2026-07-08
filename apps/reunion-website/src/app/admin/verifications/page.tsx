@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import VerificationActions from './[id]/VerificationActions'
+import SendRemindersButton from './SendRemindersButton'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,7 +18,7 @@ export default async function VerificationsPage() {
 
   return (
     <div>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', marginBottom: 6 }}>Verification Requests</h1>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}><h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827', margin: 0 }}>Verification Requests</h1><SendRemindersButton /></div>
       <p style={{ color: '#6b7280', fontSize: 14, marginBottom: 24 }}>
         {pending.length} pending · {resolved.length} recently resolved
       </p>

@@ -1,39 +1,7 @@
-'use client'
-import { useState } from 'react'
-import { StepIndicator } from '@/components/register/StepIndicator'
-import { StepVerification, type VerifiedAlumni, type ManualVerificationResult } from '@/components/register/StepVerification'
-import { StepDetails, type GuestPass } from '@/components/register/StepDetails'
-import { StepConfirm } from '@/components/register/StepConfirm'
-
-type Step = 1 | 2 | 3
-
-interface RegistrationResult {
-  registrationId: string
-  fullName: string
-  guests: GuestPass[]
-}
+import RegisterFlow from './RegisterFlow'
+import { FeeDisplay } from '@/components/FeeDisplay'
 
 export default function RegisterPage() {
-  const [step, setStep] = useState<Step>(1)
-  const [verifiedAlumni, setVerifiedAlumni] = useState<VerifiedAlumni | null>(null)
-  const [manualVerification, setManualVerification] = useState<ManualVerificationResult | null>(null)
-  const [registrationResult, setRegistrationResult] = useState<RegistrationResult | null>(null)
-
-  const handleAlumniVerified = (alumni: VerifiedAlumni) => {
-    setVerifiedAlumni(alumni)
-    setStep(2)
-  }
-
-  const handleManualVerification = (result: ManualVerificationResult) => {
-    setManualVerification(result)
-    setStep(2)
-  }
-
-  const handleSubmitted = (result: RegistrationResult) => {
-    setRegistrationResult(result)
-    setStep(3)
-  }
-
   return (
     <div className="py-12 min-h-screen" style={{ background: '#FAF7F2' }}>
       <div className="max-w-2xl mx-auto px-4 sm:px-6">
@@ -46,30 +14,29 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <StepIndicator current={step} />
-
-        <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 sm:p-8">
-          {step === 1 && (
-            <StepVerification
-              onAlumniVerified={handleAlumniVerified}
-              onManualVerification={handleManualVerification}
-            />
-          )}
-          {step === 2 && (
-            <StepDetails
-              verifiedAlumni={verifiedAlumni}
-              manualVerification={manualVerification}
-              onSubmitted={handleSubmitted}
-            />
-          )}
-          {step === 3 && registrationResult && (
-            <StepConfirm
-              registrationId={registrationResult.registrationId}
-              fullName={registrationResult.fullName}
-              guests={registrationResult.guests}
-            />
-          )}
+        {/* How to register video */}
+        <div className="mb-6 rounded-2xl overflow-hidden border border-neutral-200 shadow-sm bg-white">
+          <div className="px-5 py-3 border-b border-neutral-100 flex items-center gap-2">
+            <span style={{ color: '#8B1A1A', fontSize: 18 }}>▶</span>
+            <span className="text-sm font-semibold text-neutral-700">How to Register — Watch this first</span>
+          </div>
+          <video
+            controls
+            playsInline
+            preload="metadata"
+            style={{ width: '100%', display: 'block', maxHeight: 360, background: '#000' }}
+          >
+            <source src="/how-to-register.mp4" type="video/mp4" />
+          </video>
         </div>
+
+        {/* Fee with live exchange rate */}
+        <div className="mb-6 rounded-xl px-4 py-3 text-sm text-center" style={{ background: '#F0F7F4', border: '1px solid #A8D5C2', color: '#065f46' }}>
+          <span className="font-semibold">Registration fee: </span>
+          <FeeDisplay />
+        </div>
+
+        <RegisterFlow />
 
         <p className="text-center text-xs text-neutral-500 mt-6">
           Need help? Email{' '}

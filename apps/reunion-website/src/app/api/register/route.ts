@@ -23,18 +23,14 @@ const schema = z.object({
 function generateRegistrationId(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   let id = 'SHEDESA-'
-  for (let i = 0; i < 6; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)]
-  }
+  for (let i = 0; i < 6; i++) id += chars[Math.floor(Math.random() * chars.length)]
   return id
 }
 
 function generateGuestId(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   let id = 'SHEDESA-G-'
-  for (let i = 0; i < 6; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)]
-  }
+  for (let i = 0; i < 6; i++) id += chars[Math.floor(Math.random() * chars.length)]
   return id
 }
 
@@ -109,7 +105,6 @@ export async function POST(req: NextRequest) {
             phone: body.phone,
             country: body.country,
             verificationStatus: 'VERIFIED',
-            // Only fill in batch if the record had none and the user provided one
             ...(!existing?.batch && !existing?.yearGraduation && body.batchCorrection
               ? { batch: body.batchCorrection.trim() }
               : {}),
@@ -120,10 +115,19 @@ export async function POST(req: NextRequest) {
       return reg
     })
 
+    // Cross-reference: remove any matching verified verification requests now that they've registered
+    db.verificationRequest.deleteMany({
+      where: {
+        status: 'VERIFIED',
+        OR: [
+          { email: { equals: registration.email, mode: 'insensitive' } },
+          { phone: registration.phone },
+        ],
+      },
+    }).catch(err => console.error('[Cleanup] VerificationRequest delete failed:', err))
+
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://shedesareunion.com'
-
     const guests = (body.guestNames ?? []).map((name, i) => ({ name, id: guestIds[i] }))
-
     const effectiveFullName = correctedName ?? registration.fullName
 
     sendRegistrationConfirmation({
