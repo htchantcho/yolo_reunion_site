@@ -250,3 +250,29 @@ model VerificationRequest {
 
   @@index([status])
 }
+
+enum VendorStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model Vendor {
+  id            String        @id @default(cuid())
+  vendorId      String        @unique
+  fullName      String
+  email         String
+  phone         String
+  businessName  String
+  businessType  String?
+  description   String?
+  country       String
+  paymentStatus PaymentStatus @default(PENDING)
+  status        VendorStatus  @default(PENDING)
+  adminNotes    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([email])
+  @@index([status])
+}

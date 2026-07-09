@@ -9,6 +9,7 @@ const NAV = [
   { href: '/admin/alumni', label: '🎓 Alumni', exact: false },
   { href: '/admin/payments', label: '💳 Payments', exact: false },
   { href: '/admin/programme', label: '📅 Programme', exact: false },
+  { href: '/admin/vendors', label: '🏪 Vendors', exact: false },
 ]
 
 export default function AdminSidebar({ adminName }: { adminName: string }) {

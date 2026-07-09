@@ -9,6 +9,7 @@ const navLinks = [
   { href: '/programme', label: 'Programme' },
   { href: '/gallery', label: 'Gallery' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/trade-fair', label: 'Trade Fair' },
   { href: '/donate', label: 'Donate' },
   { href: '/contact', label: 'Contact' },
 ]
