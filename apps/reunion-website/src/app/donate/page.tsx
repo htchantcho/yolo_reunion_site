@@ -58,6 +58,11 @@ export default function DonatePage() {
               Email yoloreunion@gmail.com →
             </a>
           </div>
+
+          {/* Payment link — verify alumni identity, then reveal mobile money numbers */}
+          <div className="mt-6 pt-6 border-t border-neutral-200">
+            <DonateFlow />
+          </div>
         </div>
 
         {/* Register CTA */}
@@ -67,9 +72,6 @@ export default function DonatePage() {
             Register for the Reunion
           </Link>
         </div>
-
-        {/* Payment link — verify alumni identity, then reveal mobile money numbers */}
-        <DonateFlow />
       </div>
     </div>
   )

@@ -8,10 +8,10 @@ export function DonateFlow() {
 
   if (verified) {
     return (
-      <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-8">
+      <div>
         <div className="text-center mb-6">
           <p className="text-sm font-semibold" style={{ color: '#8B1A1A' }}>Thank you, {verified.fullName.split(' ')[0]} 🙏</p>
-          <h2 className="font-playfair text-xl font-bold text-neutral-900 mt-1">You&apos;re verified — here&apos;s how to give</h2>
+          <h3 className="font-playfair text-lg font-bold text-neutral-900 mt-1">You&apos;re verified — here&apos;s how to give</h3>
         </div>
 
         <blockquote className="rounded-xl p-5 mb-6 text-sm text-neutral-700 italic leading-relaxed" style={{ background: '#FFFBEB', border: '1px solid #FCD34D' }}>
@@ -35,9 +35,9 @@ export function DonateFlow() {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-6 sm:p-8">
-      <div className="text-center mb-2">
-        <h2 className="font-playfair text-xl font-bold text-neutral-900">Donate via Mobile Money</h2>
+    <div>
+      <div className="mb-2">
+        <h3 className="font-playfair text-lg font-bold text-neutral-900">Donate via Mobile Money</h3>
         <p className="text-neutral-500 text-sm mt-1">
           Confirm you&apos;re a Sacred Heart alumnus to reveal the MTN MoMo &amp; Orange Money numbers.
         </p>
