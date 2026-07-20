@@ -45,7 +45,7 @@ export default function PrivacyPage() {
             <li style={{ marginBottom: 6 }}><strong>Contact information:</strong> Email address, phone number, country of residence</li>
             <li style={{ marginBottom: 6 }}><strong>Guest information:</strong> Names of additional guests you register</li>
             <li style={{ marginBottom: 6 }}><strong>Event preferences:</strong> Dietary requirements, accessibility needs</li>
-            <li style={{ marginBottom: 6 }}><strong>Payment information:</strong> For card payments, payment processing is handled entirely by Stripe — we do not store your card details. For mobile money payments, we receive the transaction reference you or your bank provides.</li>
+            <li style={{ marginBottom: 6 }}><strong>Payment information:</strong> For mobile money payments, we receive the transaction reference you or your bank provides.</li>
           </ul>
           <p style={{ marginTop: 10 }}>
             We also collect basic technical information when you visit our website (IP address, browser type)
@@ -77,13 +77,6 @@ export default function PrivacyPage() {
         <Section title="4. Third-Party Services">
           <p>We use the following trusted third-party services to operate the platform:</p>
           <ul style={{ paddingLeft: 20, marginTop: 8 }}>
-            <li style={{ marginBottom: 6 }}>
-              <strong>Stripe</strong> — for secure card payment processing. Stripe is PCI-DSS compliant.
-              Your card data is handled solely by Stripe and is subject to{' '}
-              <a href="https://stripe.com/privacy" style={{ color: '#8B1A1A' }} target="_blank" rel="noopener noreferrer">
-                Stripe's Privacy Policy
-              </a>.
-            </li>
             <li style={{ marginBottom: 6 }}>
               <strong>Email delivery service</strong> — for sending registration confirmations and event
               communications. Emails contain your name and registration ID.

@@ -5,7 +5,7 @@ import { db } from '@/lib/db'
 import { z } from 'zod'
 
 const schema = z.object({
-  method: z.enum(['MTN_MOMO', 'ORANGE_MONEY', 'CARD', 'PAYPAL', 'BANK_TRANSFER']),
+  method: z.enum(['MTN_MOMO', 'ORANGE_MONEY', 'PAYPAL', 'BANK_TRANSFER']),
   amount: z.coerce.number().int().positive(),
   currency: z.enum(['XAF', 'EUR', 'USD', 'NGN']),
   providerRef: z.string().optional(),

@@ -136,7 +136,7 @@ export function StepDetails({ verifiedAlumni, manualVerification, onSubmitted }:
           Registration Fee: 25,000 XAF per person
         </p>
         <p className="text-neutral-600">
-          You will choose your payment method (card, MTN MoMo, or Orange Money) after registration.
+          You will choose your payment method (MTN MoMo or Orange Money) after registration.
         </p>
       </div>
 

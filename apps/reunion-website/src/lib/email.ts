@@ -100,7 +100,7 @@ export async function sendRegistrationConfirmation({
             <!-- Pay Now -->
             <p style="color:#333;font-size:14px;font-weight:bold;margin:0 0 10px">Complete Your Payment</p>
             <p style="color:#555;font-size:14px;line-height:1.6;margin:0 0 16px">
-              Your spot is not confirmed until payment is received. Choose card (Stripe), MTN Mobile Money, or Orange Money:
+              Your spot is not confirmed until payment is received. Choose MTN Mobile Money or Orange Money:
             </p>
             <table cellpadding="0" cellspacing="0" style="margin:0 0 20px">
               <tr>

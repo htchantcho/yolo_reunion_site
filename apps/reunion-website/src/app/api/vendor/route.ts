@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { z } from 'zod'
 import { sendVendorConfirmation } from '@/lib/email-vendor'
+import { TRADE_FAIR } from '@/lib/constants'
 
-const SPOT_LIMIT = 10
+const SPOT_LIMIT = TRADE_FAIR.spotLimit
 
 const schema = z.object({
   fullName: z.string().min(2).max(100),

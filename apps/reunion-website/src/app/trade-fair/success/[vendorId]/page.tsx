@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { TRADE_FAIR, PAYMENT_NUMBERS } from '@/lib/constants'
 
 export default async function VendorSuccessPage({
   params,
@@ -28,19 +29,27 @@ export default async function VendorSuccessPage({
           </div>
 
           <div style={{ marginBottom: 24 }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#111827', margin: '0 0 12px' }}>Complete Your Payment — 5,000 XAF</p>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#111827', margin: '0 0 12px' }}>Complete Your Payment — {TRADE_FAIR.vendorFeeDisplay}</p>
+
+            <Link
+              href={`/register/success?vendorId=${vendorId}`}
+              style={{ display: 'block', textAlign: 'center', padding: '13px 20px', background: '#2D6A4F', color: 'white', borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: 'none', marginBottom: 14 }}
+            >
+              Pay Now — {TRADE_FAIR.vendorFeeDisplay} →
+            </Link>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ background: '#fff8e1', borderRadius: 8, padding: '14px 16px' }}>
                 <p style={{ color: '#92400e', fontWeight: 700, fontSize: 13, margin: '0 0 4px' }}>MTN Mobile Money</p>
                 <p style={{ color: '#78350f', fontSize: 13, margin: 0 }}>
-                  Send 5,000 XAF to: <strong>+237 6XX XXX XXX</strong><br />
+                  Send {TRADE_FAIR.vendorFeeDisplay} to: <strong>{PAYMENT_NUMBERS.mtn}</strong><br />
                   Reference: <strong>{vendorId}</strong>
                 </p>
               </div>
               <div style={{ background: '#fff3e0', borderRadius: 8, padding: '14px 16px' }}>
                 <p style={{ color: '#92400e', fontWeight: 700, fontSize: 13, margin: '0 0 4px' }}>Orange Money</p>
                 <p style={{ color: '#78350f', fontSize: 13, margin: 0 }}>
-                  Send 5,000 XAF to: <strong>+237 6XX XXX XXX</strong><br />
+                  Send {TRADE_FAIR.vendorFeeDisplay} to: <strong>{PAYMENT_NUMBERS.orange}</strong><br />
                   Reference: <strong>{vendorId}</strong>
                 </p>
               </div>

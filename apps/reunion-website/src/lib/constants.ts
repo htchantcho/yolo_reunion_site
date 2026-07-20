@@ -11,3 +11,16 @@ export const EVENT = {
   contactWhatsApp: '+12402716512',
   socialLinks: { facebook: '', instagram: '', twitter: '' },
 } as const
+
+export const TRADE_FAIR = {
+  vendorFee: 10000,
+  vendorFeeDisplay: '10,000 XAF',
+  spotLimit: 15,
+} as const
+
+// Shared MTN/Orange Money numbers used for both event and vendor payments
+export const PAYMENT_NUMBERS = {
+  mtn: '+237 679 371 356',
+  orange: '+237 691 241 454',
+  whatsapp: '+237 683 031 320',
+} as const

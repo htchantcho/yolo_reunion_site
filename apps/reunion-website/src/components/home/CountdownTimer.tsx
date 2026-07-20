@@ -23,7 +23,7 @@ export function CountdownTimer() {
           {[{l:'Days',v:t.days},{l:'Hours',v:t.hours},{l:'Minutes',v:t.minutes},{l:'Seconds',v:t.seconds}].map(({l,v}) => (
             <div key={l} className="flex flex-col items-center">
               <div className="w-16 sm:w-24 h-16 sm:h-24 rounded-xl flex items-center justify-center" style={{background:'rgba(255,255,255,0.1)'}}>
-                <span className="font-playfair text-2xl sm:text-4xl font-bold tabular-nums">{String(v).padStart(2,'0')}</span>
+                <span suppressHydrationWarning className="font-playfair text-2xl sm:text-4xl font-bold tabular-nums">{String(v).padStart(2,'0')}</span>
               </div>
               <span className="text-xs mt-2 uppercase tracking-wide" style={{color:'rgba(255,255,255,0.6)'}}>{l}</span>
             </div>

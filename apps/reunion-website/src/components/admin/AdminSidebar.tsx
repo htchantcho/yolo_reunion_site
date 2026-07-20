@@ -7,7 +7,7 @@ const NAV = [
   { href: '/admin/registrations', label: '📋 Registrations', exact: false },
   { href: '/admin/verifications', label: '✅ Verifications', exact: false },
   { href: '/admin/alumni', label: '🎓 Alumni', exact: false },
-  { href: '/admin/payments', label: '💳 Payments', exact: false },
+  { href: '/admin/payments', label: '💰 Payments', exact: false },
   { href: '/admin/programme', label: '📅 Programme', exact: false },
   { href: '/admin/vendors', label: '🏪 Vendors', exact: false },
 ]

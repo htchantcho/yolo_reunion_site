@@ -1,11 +1,12 @@
 import VendorForm from './VendorForm'
 import { db } from '@/lib/db'
+import { TRADE_FAIR } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
 
 export default async function TradeFairPage() {
   const taken = await db.vendor.count({ where: { status: { not: 'CANCELLED' } } })
-  const spotsLeft = Math.max(0, 10 - taken)
+  const spotsLeft = Math.max(0, TRADE_FAIR.spotLimit - taken)
 
   return (
     <main style={{ minHeight: '100vh', background: '#f9fafb' }}>
@@ -23,12 +24,12 @@ export default async function TradeFairPage() {
           </p>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
             <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '14px 20px', textAlign: 'center' }}>
-              <p style={{ color: '#F4D03F', fontSize: 22, fontWeight: 700, margin: 0 }}>5,000</p>
+              <p style={{ color: '#F4D03F', fontSize: 22, fontWeight: 700, margin: 0 }}>{TRADE_FAIR.vendorFee.toLocaleString()}</p>
               <p style={{ color: '#a8d8c0', fontSize: 12, margin: '2px 0 0' }}>XAF to reserve spot</p>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '14px 20px', textAlign: 'center' }}>
               <p style={{ color: '#F4D03F', fontSize: 22, fontWeight: 700, margin: 0 }}>{spotsLeft}</p>
-              <p style={{ color: '#a8d8c0', fontSize: 12, margin: '2px 0 0' }}>spots remaining (10 max)</p>
+              <p style={{ color: '#a8d8c0', fontSize: 12, margin: '2px 0 0' }}>spots remaining ({TRADE_FAIR.spotLimit} max)</p>
             </div>
             <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '14px 20px', textAlign: 'center' }}>
               <p style={{ color: '#F4D03F', fontSize: 22, fontWeight: 700, margin: 0 }}>Dec 18</p>
@@ -69,7 +70,7 @@ export default async function TradeFairPage() {
             <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 10, padding: '16px 20px' }}>
               <p style={{ color: '#14532d', fontWeight: 700, fontSize: 14, margin: '0 0 8px' }}>Payment</p>
               <p style={{ color: '#166534', fontSize: 13, lineHeight: 1.6, margin: 0 }}>
-                Vendor spots are reserved for <strong>5,000 XAF</strong> via MTN Mobile Money or Orange Money only.
+                Vendor spots are reserved for <strong>{TRADE_FAIR.vendorFeeDisplay}</strong> via MTN Mobile Money or Orange Money only.
                 Payment instructions are sent by email immediately after registration.
                 Spots are confirmed once payment is received — first paid, first confirmed.
               </p>

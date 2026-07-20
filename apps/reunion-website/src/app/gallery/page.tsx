@@ -1,6 +1,6 @@
 import { GalleryClient } from './GalleryClient'
 
-const IMAGES = [
+const REUNION_2024_IMAGES = [
   { src: '/images/gallery/gallery_001.jpg', alt: 'SHEDESA Alumni — Sports Day' },
   { src: '/images/gallery/gallery_002.jpg', alt: 'SHEDESA Alumni — Sports Day' },
   { src: '/images/gallery/gallery_003.jpg', alt: 'SHEDESA Alumni — Sports Day' },
@@ -144,6 +144,51 @@ const IMAGES = [
   { src: '/images/gallery/gallery_141.jpg', alt: 'SHEDESA Alumni — Gala Ceremony' },
 ]
 
+const EUROPE_2026_IMAGES = [
+  { src: '/images/gallery/gallery_europe_001.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_002.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_003.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_004.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_005.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_006.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_007.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_008.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_009.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_010.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_011.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_012.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_013.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_014.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_015.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_016.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_017.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_018.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_019.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_020.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_021.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_022.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_023.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_024.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_025.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_026.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_027.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_028.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_029.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_030.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_031.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_032.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_033.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_034.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+  { src: '/images/gallery/gallery_europe_035.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
+]
+
+const SECTIONS = [
+  { title: 'Shedesa Reunion 2024', images: REUNION_2024_IMAGES },
+  { title: 'Shedesa Europe Reunion Summer 2026', images: EUROPE_2026_IMAGES },
+]
+
+const TOTAL_PHOTOS = REUNION_2024_IMAGES.length + EUROPE_2026_IMAGES.length
+
 export const metadata = {
   title: 'Gallery — SHEDESA Reunion 2026',
   description: 'Photos from previous SHEDESA alumni reunions. Relive the memories and get excited for December 2026.',
@@ -183,7 +228,7 @@ export default function GalleryPage() {
             Photo Gallery
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, lineHeight: 1.65, margin: '0 auto', maxWidth: 580 }}>
-            Memories from our previous SHEDESA alumni gatherings — Sports Day and the Gala Ceremony. These moments remind us why December 2026 will be unforgettable.
+            Memories from the SHEDESA Reunion 2024 gathering and the Shedesa Europe Reunion Summer 2026 — these moments remind us why December 2026 in Douala will be unforgettable.
           </p>
         </div>
       </section>
@@ -193,11 +238,11 @@ export default function GalleryPage() {
         padding: '14px 24px', textAlign: 'center',
       }}>
         <span style={{ fontSize: 14, color: '#6b7280' }}>
-          {IMAGES.length} photos · Click any photo to view full size
+          {TOTAL_PHOTOS} photos · Click any photo to view full size
         </span>
       </div>
 
-      <GalleryClient images={IMAGES} />
+      <GalleryClient sections={SECTIONS} />
 
       <section style={{
         background: 'linear-gradient(135deg, #2C0A0A 0%, #4A1010 100%)',

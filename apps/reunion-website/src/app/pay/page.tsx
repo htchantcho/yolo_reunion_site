@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { TRADE_FAIR } from '@/lib/constants'
 
 export default function PayPage() {
   const [regId, setRegId] = useState('')
@@ -14,22 +15,24 @@ export default function PayPage() {
     e.preventDefault()
     const id = regId.trim().toUpperCase()
     if (!id) return
+    const isVendor = id.startsWith('VENDOR-')
     setLoading(true)
     setError('')
     try {
-      const res = await fetch(`/api/registration-info?regId=${encodeURIComponent(id)}`)
+      const query = isVendor ? `vendorId=${encodeURIComponent(id)}` : `regId=${encodeURIComponent(id)}`
+      const res = await fetch(`/api/registration-info?${query}`)
       if (!res.ok) {
-        setError('Registration not found. Check your ID and try again.')
+        setError(`${isVendor ? 'Vendor' : 'Registration'} not found. Check your ID and try again.`)
         setLoading(false)
         return
       }
       const data = await res.json()
       if (data.paymentStatus === 'PAID') {
-        setError('This registration is already fully paid.')
+        setError(`This ${isVendor ? 'vendor spot' : 'registration'} is already fully paid.`)
         setLoading(false)
         return
       }
-      router.push(`/register/success?regId=${id}`)
+      router.push(isVendor ? `/register/success?vendorId=${id}` : `/register/success?regId=${id}`)
     } catch {
       setError('Something went wrong. Please try again.')
       setLoading(false)
@@ -41,23 +44,23 @@ export default function PayPage() {
       <div className="max-w-md mx-auto px-4">
         <div className="bg-white rounded-2xl border border-neutral-200 shadow-sm p-8">
           <div className="text-center mb-8">
-            <div style={{ fontSize: 48, marginBottom: 12 }}>💳</div>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>💰</div>
             <h1 className="font-playfair text-3xl font-bold text-neutral-900 mb-2">Pay for Your Spot</h1>
             <p className="text-neutral-600 text-sm">
-              Already registered? Enter your registration ID to complete payment.
+              Already registered or signed up as a vendor? Enter your ID to complete payment.
             </p>
           </div>
 
           <form onSubmit={handleLookup} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold text-neutral-700 mb-2">
-                Registration ID
+                Registration or Vendor ID
               </label>
               <input
                 type="text"
                 value={regId}
                 onChange={e => setRegId(e.target.value)}
-                placeholder="SHEDESA-XXXXXX"
+                placeholder="SHEDESA-XXXXXX or VENDOR-XXXXXX"
                 required
                 className="w-full px-4 py-3 rounded-lg border border-neutral-300 text-neutral-900 text-sm focus:outline-none focus:ring-2"
                 style={{ fontFamily: 'monospace', letterSpacing: '0.05em' }}
@@ -102,7 +105,8 @@ export default function PayPage() {
 
         <div className="mt-6 rounded-xl p-4 text-center" style={{ background: '#F0F7F4', border: '1px solid #A8D5C2' }}>
           <p className="text-sm font-semibold mb-1" style={{ color: '#8B1A1A' }}>Registration fee: 25,000 XAF / person</p>
-          <p className="text-xs" style={{ color: '#047857' }}>We accept card (Stripe), MTN MoMo &amp; Orange Money</p>
+          <p className="text-sm font-semibold mb-1" style={{ color: '#8B1A1A' }}>Vendor fee: {TRADE_FAIR.vendorFeeDisplay}</p>
+          <p className="text-xs" style={{ color: '#047857' }}>We accept MTN MoMo &amp; Orange Money</p>
         </div>
       </div>
     </div>

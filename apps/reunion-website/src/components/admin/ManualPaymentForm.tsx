@@ -6,7 +6,6 @@ const METHODS = [
   { value: 'MTN_MOMO', label: 'MTN MoMo' },
   { value: 'ORANGE_MONEY', label: 'Orange Money' },
   { value: 'BANK_TRANSFER', label: 'Bank Transfer' },
-  { value: 'CARD', label: 'Card (manual)' },
   { value: 'PAYPAL', label: 'PayPal' },
 ]
 
@@ -14,7 +13,7 @@ const CURRENCY_DEFAULTS: Record<string, number> = {
   XAF: 25000, EUR: 38, USD: 43, NGN: 67500,
 }
 
-// EUR/USD/NGN are stored in smallest unit (cents) to match Stripe; XAF has no subunit
+// EUR/USD/NGN are stored in smallest unit (cents); XAF has no subunit
 const CURRENCY_MULTIPLIER: Record<string, number> = {
   XAF: 1, EUR: 100, USD: 100, NGN: 100,
 }

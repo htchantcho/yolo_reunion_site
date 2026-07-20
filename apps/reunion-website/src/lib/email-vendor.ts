@@ -1,4 +1,5 @@
 import nodemailer from 'nodemailer'
+import { TRADE_FAIR, PAYMENT_NUMBERS } from '@/lib/constants'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -18,6 +19,9 @@ export async function sendVendorConfirmation({
   vendorId: string
   businessName: string
 }) {
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://shedesareunion.com'
+  const payUrl = `${appUrl}/register/success?vendorId=${vendorId}`
+
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -40,18 +44,25 @@ export async function sendVendorConfirmation({
             <p style="color:#2D6A4F;font-weight:bold;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 8px">Your Vendor ID</p>
             <p style="font-family:monospace;font-size:24px;font-weight:bold;color:#2D6A4F;margin:0">${vendorId}</p>
           </div>
-          <p style="color:#333;font-size:14px;font-weight:bold;margin:0 0 12px">Complete Your Payment &mdash; 5,000 XAF</p>
+          <p style="color:#333;font-size:14px;font-weight:bold;margin:0 0 12px">Complete Your Payment &mdash; ${TRADE_FAIR.vendorFeeDisplay}</p>
           <p style="color:#555;font-size:13px;line-height:1.6;margin:0 0 16px">
-            To confirm your spot at the trade fair, please send <strong>5,000 XAF</strong> using MTN Mobile Money or Orange Money. Use your Vendor ID as the payment reference.
+            To confirm your spot at the trade fair, please send <strong>${TRADE_FAIR.vendorFeeDisplay}</strong> using MTN Mobile Money or Orange Money. Use your Vendor ID as the payment reference.
           </p>
+          <table cellpadding="0" cellspacing="0" style="margin:0 0 20px">
+            <tr>
+              <td style="background:#B7960C;border-radius:6px;padding:14px 28px">
+                <a href="${payUrl}" style="color:#ffffff;font-size:15px;font-weight:bold;text-decoration:none">Pay Now &mdash; ${TRADE_FAIR.vendorFeeDisplay} &rarr;</a>
+              </td>
+            </tr>
+          </table>
           <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px;border-collapse:separate;border-spacing:0 8px">
             <tr><td style="padding:14px 16px;background:#fff8e1;border-radius:8px">
               <p style="color:#92400e;font-weight:bold;font-size:13px;margin:0 0 4px">&#128242; MTN Mobile Money</p>
-              <p style="color:#78350f;font-size:13px;margin:0">Send to: <strong>+237 6XX XXX XXX</strong><br>Reference: <strong>${vendorId}</strong></p>
+              <p style="color:#78350f;font-size:13px;margin:0">Send to: <strong>${PAYMENT_NUMBERS.mtn}</strong><br>Reference: <strong>${vendorId}</strong></p>
             </td></tr>
             <tr><td style="padding:14px 16px;background:#fff3e0;border-radius:8px">
               <p style="color:#92400e;font-weight:bold;font-size:13px;margin:0 0 4px">&#128241; Orange Money</p>
-              <p style="color:#78350f;font-size:13px;margin:0">Send to: <strong>+237 6XX XXX XXX</strong><br>Reference: <strong>${vendorId}</strong></p>
+              <p style="color:#78350f;font-size:13px;margin:0">Send to: <strong>${PAYMENT_NUMBERS.orange}</strong><br>Reference: <strong>${vendorId}</strong></p>
             </td></tr>
           </table>
           <p style="color:#555;font-size:13px;line-height:1.7;margin:0 0 16px">

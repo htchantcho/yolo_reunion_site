@@ -1,5 +1,6 @@
 import { db } from '@/lib/db'
 import Link from 'next/link'
+import { TRADE_FAIR } from '@/lib/constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,14 +47,14 @@ export default async function AdminVendorsPage({
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
         <h1 style={{ fontSize: 22, fontWeight: 700, color: '#111827' }}>Vendors</h1>
         <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <span style={{ fontSize: 13, color: '#6b7280' }}>{taken}/10 spots taken</span>
+          <span style={{ fontSize: 13, color: '#6b7280' }}>{taken}/{TRADE_FAIR.spotLimit} spots taken</span>
           <span style={{ fontSize: 13, color: '#6b7280' }}>{total} total</span>
         </div>
       </div>
 
       {/* Progress bar */}
       <div style={{ background: '#e5e7eb', borderRadius: 8, height: 8, marginBottom: 20, overflow: 'hidden' }}>
-        <div style={{ background: taken >= 10 ? '#dc2626' : '#2D6A4F', width: (taken / 10 * 100) + '%', height: '100%', borderRadius: 8, transition: 'width 0.3s' }} />
+        <div style={{ background: taken >= TRADE_FAIR.spotLimit ? '#dc2626' : '#2D6A4F', width: (taken / TRADE_FAIR.spotLimit * 100) + '%', height: '100%', borderRadius: 8, transition: 'width 0.3s' }} />
       </div>
 
       {/* Filters */}

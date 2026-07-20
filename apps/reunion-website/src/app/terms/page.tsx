@@ -61,7 +61,6 @@ export default function TermsPage() {
             Payment is accepted via:
           </p>
           <ul style={{ paddingLeft: 20 }}>
-            <li style={{ marginBottom: 6 }}>Credit/debit card (Visa, Mastercard) via Stripe — billed in EUR, USD, or NGN at the rates displayed</li>
             <li style={{ marginBottom: 6 }}>MTN Mobile Money — send to +237 679 371 356</li>
             <li style={{ marginBottom: 6 }}>Orange Money — send to +237 691 241 454</li>
           </ul>
@@ -96,8 +95,7 @@ export default function TermsPage() {
             </li>
           </ul>
           <p style={{ marginTop: 10 }}>
-            Refunds for card payments are processed through Stripe. Refunds for mobile money payments
-            are processed manually and may take up to 14 business days.
+            Refunds for mobile money payments are processed manually and may take up to 14 business days.
           </p>
         </Section>
 

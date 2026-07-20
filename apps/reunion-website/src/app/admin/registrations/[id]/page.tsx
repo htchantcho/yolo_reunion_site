@@ -126,7 +126,7 @@ export default async function RegistrationDetailPage({ params }: { params: Promi
           {!isPaid && (
             <div style={{ background: 'white', borderRadius: 10, padding: '20px 24px', boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
               <h2 style={{ fontSize: 14, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 14 }}>Record Manual Payment</h2>
-              <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 14 }}>Use for MoMo, bank transfer, or cash payments received outside Stripe.</p>
+              <p style={{ fontSize: 12, color: '#9ca3af', marginBottom: 14 }}>Use for MoMo, bank transfer, or cash payments received manually.</p>
               <ManualPaymentForm regId={reg.id} />
             </div>
           )}
