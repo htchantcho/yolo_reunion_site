@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
+import { DonateFlow } from './DonateFlow'
 
 export const metadata = {
   title: 'Support the Reunion — SHEDESA 2026',
@@ -60,12 +61,15 @@ export default function DonatePage() {
         </div>
 
         {/* Register CTA */}
-        <div className="text-center mt-8">
+        <div className="text-center mt-8 mb-6">
           <p className="text-neutral-500 text-sm mb-3">Planning to attend? Register for the event.</p>
           <Link href="/register" className={buttonVariants({ variant: 'default' })} style={{ background: '#8B1A1A' }}>
             Register for the Reunion
           </Link>
         </div>
+
+        {/* Payment link — verify alumni identity, then reveal mobile money numbers */}
+        <DonateFlow />
       </div>
     </div>
   )
