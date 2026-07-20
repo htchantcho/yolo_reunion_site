@@ -12,7 +12,7 @@ const DAY_CONFIG = [
     day: 1,
     date: 'Friday, December 18, 2026',
     label: 'Day 1',
-    theme: 'Football Classic',
+    theme: 'Trade Fair Day and Reunion Gala Match',
     icon: '⚽',
     color: '#8B1A1A',
     light: '#FAF0F0',
