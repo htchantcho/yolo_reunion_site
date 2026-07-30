@@ -3,13 +3,13 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
 const NAV = [
-  { href: '/admin', label: '📊 Dashboard', exact: true },
-  { href: '/admin/registrations', label: '📋 Registrations', exact: false },
-  { href: '/admin/verifications', label: '✅ Verifications', exact: false },
-  { href: '/admin/alumni', label: '🎓 Alumni', exact: false },
-  { href: '/admin/payments', label: '💰 Payments', exact: false },
-  { href: '/admin/programme', label: '📅 Programme', exact: false },
-  { href: '/admin/vendors', label: '🏪 Vendors', exact: false },
+  { href: '/admin', icon: '📊', label: 'Dashboard', exact: true },
+  { href: '/admin/registrations', icon: '📋', label: 'Registrations', exact: false },
+  { href: '/admin/verifications', icon: '✅', label: 'Verifications', exact: false },
+  { href: '/admin/alumni', icon: '🎓', label: 'Alumni', exact: false },
+  { href: '/admin/payments', icon: '💰', label: 'Payments', exact: false },
+  { href: '/admin/programme', icon: '📅', label: 'Programme', exact: false },
+  { href: '/admin/vendors', icon: '🏪', label: 'Vendors', exact: false },
 ]
 
 export default function AdminSidebar({ adminName }: { adminName: string }) {
@@ -22,28 +22,47 @@ export default function AdminSidebar({ adminName }: { adminName: string }) {
   }
 
   return (
-    <aside style={{ width: 220, background: '#2D6A4F', color: 'white', display: 'flex', flexDirection: 'column', minHeight: '100vh', flexShrink: 0 }}>
-      <div style={{ padding: '24px 20px 20px', borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
-        <div style={{ fontWeight: 700, fontSize: 15, color: '#B7960C', letterSpacing: 0.5 }}>SHEDESA Admin</div>
-        <div style={{ fontSize: 12, color: '#a8d8c0', marginTop: 4 }}>{adminName}</div>
+    <aside
+      className="flex w-14 flex-shrink-0 flex-col md:w-[220px]"
+      style={{ background: '#2D6A4F', color: 'white', minHeight: '100vh' }}
+    >
+      <div className="border-b px-2 py-4 md:px-5 md:py-6" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
+        <div className="hidden text-[15px] font-bold tracking-wide md:block" style={{ color: '#B7960C' }}>SHEDESA Admin</div>
+        <div className="hidden text-xs md:mt-1 md:block" style={{ color: '#a8d8c0' }}>{adminName}</div>
+        <div className="text-center text-lg font-bold md:hidden" style={{ color: '#B7960C' }} title={adminName}>S</div>
       </div>
-      <nav style={{ flex: 1, padding: '12px 0' }}>
-        {NAV.map(({ href, label, exact }) => {
+      <nav className="flex-1 py-3">
+        {NAV.map(({ href, icon, label, exact }) => {
           const active = exact ? pathname === href : pathname.startsWith(href)
           return (
-            <Link key={href} href={href} style={{
-              display: 'block', padding: '10px 20px', color: active ? '#B7960C' : 'rgba(255,255,255,0.85)',
-              textDecoration: 'none', background: active ? 'rgba(255,255,255,0.1)' : 'transparent',
-              fontWeight: active ? 600 : 400, fontSize: 14,
-            }}>
-              {label}
+            <Link
+              key={href}
+              href={href}
+              title={label}
+              aria-label={label}
+              className="flex items-center justify-center gap-2.5 px-2 py-2.5 text-sm no-underline md:justify-start md:px-5"
+              style={{
+                color: active ? '#B7960C' : 'rgba(255,255,255,0.85)',
+                background: active ? 'rgba(255,255,255,0.1)' : 'transparent',
+                fontWeight: active ? 600 : 400,
+              }}
+            >
+              <span aria-hidden className="text-lg leading-none md:text-base">{icon}</span>
+              <span className="hidden md:inline">{label}</span>
             </Link>
           )
         })}
       </nav>
-      <div style={{ padding: '16px 20px', borderTop: '1px solid rgba(255,255,255,0.15)' }}>
-        <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.7)', cursor: 'pointer', fontSize: 13, padding: 0 }}>
-          Sign Out →
+      <div className="border-t px-2 py-4 md:px-5" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
+        <button
+          onClick={handleLogout}
+          title="Sign Out"
+          aria-label="Sign Out"
+          className="block w-full cursor-pointer border-none bg-transparent p-0 text-center text-lg md:text-left md:text-[13px]"
+          style={{ color: 'rgba(255,255,255,0.7)' }}
+        >
+          <span className="md:hidden">↩</span>
+          <span className="hidden md:inline">Sign Out →</span>
         </button>
       </div>
     </aside>

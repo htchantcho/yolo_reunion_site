@@ -76,10 +76,9 @@ export default async function ProgrammePage() {
     <div style={{ background: '#FAF7F2', minHeight: '100vh' }}>
 
       {/* Hero — linen theme */}
-      <div style={{
+      <div className="px-5 py-14 pb-16 md:px-6 md:py-[72px] md:pb-20" style={{
         position: 'relative', overflow: 'hidden',
         background: 'linear-gradient(135deg, #2C0A0A 0%, #8B1A1A 45%, #4A1010 100%)',
-        padding: '72px 24px 80px',
       }}>
         {/* Decorative linen circles */}
         {[
@@ -116,7 +115,7 @@ export default async function ProgrammePage() {
           <div style={{ display: 'inline-block', background: 'rgba(180,130,60,0.25)', border: '1px solid rgba(180,130,60,0.5)', borderRadius: 20, padding: '4px 16px', fontSize: 12, fontWeight: 600, color: '#E8D5A3', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 16 }}>
             SHEDESA Reunion 2026
           </div>
-          <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 42, fontWeight: 700, color: 'white', margin: '0 0 12px', lineHeight: 1.2 }}>
+          <h1 className="text-[28px] md:text-[42px]" style={{ fontFamily: 'Georgia, serif', fontWeight: 700, color: 'white', margin: '0 0 12px', lineHeight: 1.2 }}>
             Event Programme
           </h1>
           <p style={{ fontSize: 17, color: '#E8C8C8', margin: '0 0 8px' }}>
@@ -141,7 +140,7 @@ export default async function ProgrammePage() {
               <p style={{ fontSize: 13, color: '#6b7280', margin: 0 }}>Venue details sent to registered attendees</p>
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer"
               style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 18px', background: '#8B1A1A', color: 'white', borderRadius: 8, fontWeight: 600, fontSize: 13, textDecoration: 'none' }}>
               🗺 Open in Google Maps

@@ -13,8 +13,8 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 
 export default function AgreementPage() {
   return (
-    <div style={{ background: '#FAF7F2', minHeight: '100vh', padding: '48px 16px' }}>
-      <div style={{ maxWidth: 740, margin: '0 auto', background: 'white', borderRadius: 12, padding: '48px 40px', boxShadow: '0 1px 6px rgba(0,0,0,0.07)' }}>
+    <div className="px-4 py-8 md:px-4 md:py-12" style={{ background: '#FAF7F2', minHeight: '100vh' }}>
+      <div className="px-5 py-8 md:px-10 md:py-12" style={{ maxWidth: 740, margin: '0 auto', background: 'white', borderRadius: 12, boxShadow: '0 1px 6px rgba(0,0,0,0.07)' }}>
         <div style={{ marginBottom: 36 }}>
           <p style={{ fontSize: 13, color: '#9ca3af', marginBottom: 8 }}>Last updated: June 2026</p>
           <h1 style={{ fontFamily: 'Georgia, serif', fontSize: 34, fontWeight: 700, color: '#111827', margin: 0 }}>

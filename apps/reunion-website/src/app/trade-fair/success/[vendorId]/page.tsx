@@ -9,9 +9,9 @@ export default async function VendorSuccessPage({
   const { vendorId } = await params
 
   return (
-    <main style={{ minHeight: '100vh', background: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 16px' }}>
+    <main className="px-4 py-8" style={{ minHeight: '100vh', background: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ maxWidth: 560, width: '100%' }}>
-        <div style={{ background: 'white', borderRadius: 12, padding: 40, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
+        <div className="p-6 md:p-10" style={{ background: 'white', borderRadius: 12, boxShadow: '0 2px 12px rgba(0,0,0,0.08)' }}>
           <div style={{ width: 56, height: 56, borderRadius: '50%', background: '#dcfce7', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
             <span style={{ fontSize: 26 }}>&#10003;</span>
           </div>
