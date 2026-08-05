@@ -182,12 +182,30 @@ const EUROPE_2026_IMAGES = [
   { src: '/images/gallery/gallery_europe_035.jpg', alt: 'SHEDESA Alumni — Europe Reunion Summer 2026' },
 ]
 
+const USA_IMAGES = [
+  { src: '/images/gallery/gallery_usa_001.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_002.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_003.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_004.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_005.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_006.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_007.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_008.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_009.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_010.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_011.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_012.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_013.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_014.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+]
+
 const SECTIONS = [
   { title: 'Shedesa Reunion 2024', images: REUNION_2024_IMAGES },
   { title: 'Shedesa Europe Reunion Summer 2026', images: EUROPE_2026_IMAGES },
+  { title: 'Shedesa USA', images: USA_IMAGES },
 ]
 
-const TOTAL_PHOTOS = REUNION_2024_IMAGES.length + EUROPE_2026_IMAGES.length
+const TOTAL_PHOTOS = REUNION_2024_IMAGES.length + EUROPE_2026_IMAGES.length + USA_IMAGES.length
 
 export const metadata = {
   title: 'Gallery — SHEDESA Reunion 2026',
@@ -228,7 +246,7 @@ export default function GalleryPage() {
             Photo Gallery
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 17, lineHeight: 1.65, margin: '0 auto', maxWidth: 580 }}>
-            Memories from the SHEDESA Reunion 2024 gathering and the Shedesa Europe Reunion Summer 2026 — these moments remind us why December 2026 in Douala will be unforgettable.
+            Memories from the SHEDESA Reunion 2024 gathering, the Shedesa Europe Reunion Summer 2026, and Shedesa USA — these moments remind us why December 2026 in Douala will be unforgettable.
           </p>
         </div>
       </section>
