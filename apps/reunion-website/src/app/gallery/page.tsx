@@ -197,6 +197,13 @@ const USA_IMAGES = [
   { src: '/images/gallery/gallery_usa_012.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
   { src: '/images/gallery/gallery_usa_013.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
   { src: '/images/gallery/gallery_usa_014.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_015.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_016.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_017.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_018.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_019.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_020.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
+  { src: '/images/gallery/gallery_usa_021.jpg', alt: 'SHEDESA Alumni — SHEDESA USA' },
 ]
 
 const SECTIONS = [
