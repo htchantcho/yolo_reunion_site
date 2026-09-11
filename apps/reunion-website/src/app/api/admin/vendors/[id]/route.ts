@@ -10,7 +10,7 @@ export async function PATCH(
 ) {
   const cookieStore = await cookies()
   const token = cookieStore.get(SESSION_COOKIE)?.value
-  if (!token || !verifyAdminToken(token)) {
+  if (!token || !(await verifyAdminToken(token))) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -39,7 +39,7 @@ export async function DELETE(
 ) {
   const cookieStore = await cookies()
   const token = cookieStore.get(SESSION_COOKIE)?.value
-  if (!token || !verifyAdminToken(token)) {
+  if (!token || !(await verifyAdminToken(token))) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
