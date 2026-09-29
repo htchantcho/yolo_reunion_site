@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Prisma } from '@prisma/client'
 import { z } from 'zod'
 import { db } from '@/lib/db'
 import { verifyAdminToken, SESSION_COOKIE } from '@/lib/admin-auth'
@@ -117,18 +118,50 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         data: { status: 'VERIFIED', adminNotes: adminNotes ?? null, resolvedAt: new Date() },
       })
 
-      const alumniRecord = await tx.alumniRecord.create({
-        data: {
-          fullName: vr.fullName,
-          email: vr.email,
-          phone: vr.phone,
-          batch: vr.classYear,
-          yearAdmission,
-          country,
-          verificationStatus: 'VERIFIED',
-          adminNotes: adminNotes ?? null,
-        },
+      // An alumni record may already exist — imported from the CSV list, or created by an
+      // earlier approval. phone and email are both unique, so creating blindly throws P2002.
+      const existing = await tx.alumniRecord.findFirst({
+        where: { OR: [{ phone: vr.phone }, { email: vr.email }] },
       })
+
+      let alumniRecord
+      if (existing) {
+        // Only claim phone/email when the record is missing them and nobody else holds the
+        // value, otherwise we'd trade one unique-constraint violation for another.
+        const phoneTaken = existing.phone
+          ? true
+          : (await tx.alumniRecord.count({ where: { phone: vr.phone } })) > 0
+        const emailTaken = existing.email
+          ? true
+          : (await tx.alumniRecord.count({ where: { email: vr.email } })) > 0
+
+        alumniRecord = await tx.alumniRecord.update({
+          where: { id: existing.id },
+          data: {
+            fullName: existing.fullName || vr.fullName,
+            batch: existing.batch ?? vr.classYear,
+            yearAdmission: existing.yearAdmission || yearAdmission,
+            country: existing.country ?? country,
+            ...(phoneTaken ? {} : { phone: vr.phone }),
+            ...(emailTaken ? {} : { email: vr.email }),
+            verificationStatus: 'VERIFIED',
+            adminNotes: adminNotes ?? existing.adminNotes,
+          },
+        })
+      } else {
+        alumniRecord = await tx.alumniRecord.create({
+          data: {
+            fullName: vr.fullName,
+            email: vr.email,
+            phone: vr.phone,
+            batch: vr.classYear,
+            yearAdmission,
+            country,
+            verificationStatus: 'VERIFIED',
+            adminNotes: adminNotes ?? null,
+          },
+        })
+      }
 
       const registration = await tx.registration.create({
         data: {
@@ -168,6 +201,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     return NextResponse.json({ id, status: 'VERIFIED', registrationId })
   } catch (err) {
     if (err instanceof z.ZodError) return NextResponse.json({ error: err.flatten() }, { status: 400 })
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+      const fields = (err.meta?.target as string[] | undefined)?.join(', ') ?? 'a unique field'
+      console.error('[Verification] Approve conflict on', fields, err)
+      return NextResponse.json(
+        { error: `Another alumni record already uses this ${fields}. Merge the records before approving.` },
+        { status: 409 },
+      )
+    }
     console.error('[Verification] Approve error:', err)
     return NextResponse.json({ error: 'Update failed' }, { status: 500 })
   }
