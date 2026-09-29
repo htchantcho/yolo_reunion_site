@@ -32,6 +32,7 @@ export default async function AdminDashboard() {
     paidPayments,
     recentRegistrations,
     paidRegistrationsWithGuests,
+    receivedDonations,
   ] = await Promise.all([
     db.registration.count(),
     db.registration.count({ where: { status: 'PENDING_VERIFICATION' } }),
@@ -55,6 +56,10 @@ export default async function AdminDashboard() {
       where: { paymentStatus: 'PAID' },
       select: { guestCount: true },
     }),
+    db.donation.findMany({
+      where: { status: 'PAID' },
+      select: { amount: true, currency: true, type: true },
+    }),
   ])
 
   // Revenue by currency
@@ -64,6 +69,13 @@ export default async function AdminDashboard() {
   }
 
   const totalAttendees = paidRegistrationsWithGuests.reduce((sum, r) => sum + 1 + r.guestCount, 0)
+
+  // Sponsor and donor money, which never goes through a registration
+  const donationsByCurrency: Record<string, number> = {}
+  const sponsorshipCount = receivedDonations.filter(d => d.type === 'SPONSORSHIP').length
+  for (const d of receivedDonations) {
+    donationsByCurrency[d.currency] = (donationsByCurrency[d.currency] ?? 0) + d.amount
+  }
 
   return (
     <div>
@@ -103,6 +115,27 @@ export default async function AdminDashboard() {
             ))}
             <Link href="/admin/payments" style={{ background: '#f0f8f4', borderRadius: 10, padding: '18px 22px', border: '1px dashed #a7f3d0', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#2D6A4F', fontSize: 14, fontWeight: 600 }}>
               View all payments →
+            </Link>
+          </div>
+        </>
+      )}
+
+      {receivedDonations.length > 0 && (
+        <>
+          <h2 style={{ fontSize: 14, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 12 }}>Sponsors &amp; Donations</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16, marginBottom: 32 }}>
+            {Object.entries(donationsByCurrency).map(([currency, total]) => (
+              <div key={currency} style={{ background: 'white', borderRadius: 10, padding: '18px 22px', boxShadow: '0 1px 4px rgba(0,0,0,0.07)', borderLeft: '4px solid #B7960C' }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', marginBottom: 6 }}>{currency}</div>
+                <div style={{ fontSize: 26, fontWeight: 700, color: '#B7960C' }}>{fmt(total, currency)}</div>
+                <div style={{ fontSize: 12, color: '#9ca3af', marginTop: 2 }}>
+                  {receivedDonations.length} contribution{receivedDonations.length > 1 ? 's' : ''}
+                  {sponsorshipCount > 0 && `, ${sponsorshipCount} sponsorship${sponsorshipCount > 1 ? 's' : ''}`}
+                </div>
+              </div>
+            ))}
+            <Link href="/admin/donations" style={{ background: '#fffbeb', borderRadius: 10, padding: '18px 22px', border: '1px dashed #fcd34d', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#B7960C', fontSize: 14, fontWeight: 600 }}>
+              View all contributions →
             </Link>
           </div>
         </>

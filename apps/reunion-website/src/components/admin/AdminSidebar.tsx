@@ -8,6 +8,7 @@ const NAV = [
   { href: '/admin/verifications', icon: '✅', label: 'Verifications', exact: false },
   { href: '/admin/alumni', icon: '🎓', label: 'Alumni', exact: false },
   { href: '/admin/payments', icon: '💰', label: 'Payments', exact: false },
+  { href: '/admin/donations', icon: '🤝', label: 'Sponsors', exact: false },
   { href: '/admin/programme', icon: '📅', label: 'Programme', exact: false },
   { href: '/admin/vendors', icon: '🏪', label: 'Vendors', exact: false },
 ]
