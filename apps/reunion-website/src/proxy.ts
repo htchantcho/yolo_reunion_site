@@ -5,7 +5,7 @@ function secret() {
   return new TextEncoder().encode(process.env.ADMIN_JWT_SECRET ?? 'dev-secret-min-32-chars-long!!')
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   if (req.nextUrl.pathname.startsWith('/admin/login')) return NextResponse.next()
 
   const token = req.cookies.get('shedesa-admin-token')?.value
