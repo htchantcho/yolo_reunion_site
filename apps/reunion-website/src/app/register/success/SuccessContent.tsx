@@ -13,8 +13,47 @@ const ORANGE_NUMBER = PAYMENT_NUMBERS.orange
 const WHATSAPP_NUMBER = PAYMENT_NUMBERS.whatsapp
 const XAF_PER_PERSON = 25000
 
+const CONTACT_EMAIL = 'yoloreunion@gmail.com'
+
 function fmt(n: number) {
   return new Intl.NumberFormat('en').format(n)
+}
+
+// Tappable WhatsApp + email links with a pre-filled message, so payers can ask
+// for the account holder's name before sending and share their receipt after.
+function PaymentContactLinks({ id, isVendor, method, color }: {
+  id: string
+  isVendor: boolean
+  method: string
+  color: string
+}) {
+  const idLabel = isVendor ? 'vendor ID' : 'registration ID'
+  const subject = `SHEDESA Reunion 2026 payment - ${id}`
+  const message =
+    `Hello, I registered for the SHEDESA Reunion 2026 (${idLabel}: ${id}). ` +
+    `I am paying by ${method}. Could you please confirm the name on the account I should send the payment to? ` +
+    `I will share my payment receipt here once sent. Thank you.`
+  const waHref = `https://wa.me/${WHATSAPP_NUMBER.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`
+  const mailHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
+  const gmailHref =
+    `https://mail.google.com/mail/?view=cm&fs=1&to=${CONTACT_EMAIL}` +
+    `&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`
+  const linkStyle = { color, fontWeight: 600, textDecoration: 'underline' }
+
+  return (
+    <p className="text-xs" style={{ color }}>
+      Need the account holder&apos;s name before sending? After sending, share your receipt screenshot with your {idLabel}.
+      Contact us on WhatsApp{' '}
+      <a href={waHref} target="_blank" rel="noopener noreferrer" style={linkStyle}>
+        {WHATSAPP_NUMBER}
+      </a>{' '}
+      or email{' '}
+      <a href={mailHref} style={linkStyle}>
+        {CONTACT_EMAIL}
+      </a>{' '}
+      (<a href={gmailHref} target="_blank" rel="noopener noreferrer" style={linkStyle}>open in Gmail</a>).
+    </p>
+  )
 }
 
 export default function SuccessContent() {
@@ -169,13 +208,7 @@ export default function SuccessContent() {
                       <p className="text-sm font-mono font-bold text-neutral-800">{id}</p>
                     </div>
                   </div>
-                  <p className="text-xs text-amber-800">
-                    After sending, email your screenshot to{' '}
-                    <a href="mailto:yoloreunion@gmail.com" style={{ color: '#92400E', fontWeight: 600 }}>
-                      yoloreunion@gmail.com
-                    </a>{' '}
-                    or WhatsApp <strong>{WHATSAPP_NUMBER}</strong> with your {isVendor ? 'vendor ID' : 'registration ID'}.
-                  </p>
+                  <PaymentContactLinks id={id} isVendor={isVendor} method="MTN Mobile Money" color="#92400E" />
                 </div>
               )}
 
@@ -203,13 +236,7 @@ export default function SuccessContent() {
                       <p className="text-sm font-mono font-bold text-neutral-800">{id}</p>
                     </div>
                   </div>
-                  <p className="text-xs" style={{ color: '#9a3412' }}>
-                    After sending, email your screenshot to{' '}
-                    <a href="mailto:yoloreunion@gmail.com" style={{ color: '#9a3412', fontWeight: 600 }}>
-                      yoloreunion@gmail.com
-                    </a>{' '}
-                    or WhatsApp <strong>{WHATSAPP_NUMBER}</strong> with your {isVendor ? 'vendor ID' : 'registration ID'}.
-                  </p>
+                  <PaymentContactLinks id={id} isVendor={isVendor} method="Orange Money" color="#9a3412" />
                 </div>
               )}
             </>
