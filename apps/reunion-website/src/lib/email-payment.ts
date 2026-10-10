@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer'
 import { PAYMENT_NUMBERS } from '@/lib/constants'
+import { paymentContactLinks } from '@/lib/payment-contact'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -17,6 +18,7 @@ export async function sendPaymentInstructions({
   fullName: string
   registrationId: string
 }) {
+  const c = paymentContactLinks({ id: registrationId, isVendor: false })
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -49,11 +51,8 @@ export async function sendPaymentInstructions({
               <p style="color:#78350f;font-size:13px;margin:0">Send to: <strong>${PAYMENT_NUMBERS.orange}</strong><br>Reference: <strong>${registrationId}</strong></p>
             </td></tr>
           </table>
-          <p style="color:#555;font-size:13px;line-height:1.7;margin:0 0 16px">
-            After sending payment, reply to this email or WhatsApp <strong>+12402716512</strong> with your payment confirmation screenshot and registration ID.
-          </p>
-          <p style="color:#555;font-size:13px;margin:0">
-            Questions? Email <a href="mailto:yoloreunion@gmail.com" style="color:#2D6A4F">yoloreunion@gmail.com</a> or WhatsApp <strong>+12402716512</strong>.
+          <p style="color:#555;font-size:13px;line-height:1.7;margin:0">
+            Need the account holder's name before sending? After sending, share your payment screenshot and registration ID. Reply to this email, or contact us on WhatsApp <a href="${c.whatsappHref}" style="color:#2D6A4F;font-weight:bold">${c.whatsappNumber}</a> or email <a href="${c.mailHref}" style="color:#2D6A4F;font-weight:bold">${c.email}</a> (<a href="${c.gmailHref}" style="color:#2D6A4F">open in Gmail</a>).
           </p>
         </td></tr>
         <tr><td style="background:#f5f5f5;padding:16px;text-align:center;border-top:1px solid #e0e0e0">

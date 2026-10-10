@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { TRADE_FAIR, PAYMENT_NUMBERS } from '@/lib/constants'
+import PaymentContactLinks from '@/components/payment/PaymentContactLinks'
 
 export default async function VendorSuccessPage({
   params,
@@ -57,11 +58,9 @@ export default async function VendorSuccessPage({
           </div>
 
           <div style={{ background: '#f9fafb', borderRadius: 8, padding: '14px 16px', marginBottom: 24 }}>
-            <p style={{ color: '#374151', fontSize: 13, margin: '0 0 4px', fontWeight: 600 }}>After payment:</p>
-            <p style={{ color: '#6b7280', fontSize: 13, margin: 0, lineHeight: 1.6 }}>
-              Send your payment screenshot and vendor ID to WhatsApp{' '}
-              <strong>+12402716512</strong> or email{' '}
-              <a href="mailto:yoloreunion@gmail.com" style={{ color: '#2D6A4F' }}>yoloreunion@gmail.com</a>.
+            <p style={{ color: '#374151', fontSize: 13, margin: '0 0 4px', fontWeight: 600 }}>Questions or receipt:</p>
+            <PaymentContactLinks id={vendorId} isVendor color="#374151" />
+            <p style={{ color: '#6b7280', fontSize: 13, margin: '6px 0 0', lineHeight: 1.6 }}>
               Your spot is confirmed once payment is verified.
             </p>
           </div>

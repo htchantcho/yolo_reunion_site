@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer'
 import { TRADE_FAIR, PAYMENT_NUMBERS } from '@/lib/constants'
+import { paymentContactLinks } from '@/lib/payment-contact'
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
@@ -22,6 +23,7 @@ export async function sendVendorConfirmation({
   const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://shedesareunion.com'
   const payUrl = `${appUrl}/register/success?vendorId=${vendorId}`
 
+  const c = paymentContactLinks({ id: vendorId, isVendor: true })
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -66,8 +68,8 @@ export async function sendVendorConfirmation({
             </td></tr>
           </table>
           <p style="color:#555;font-size:13px;line-height:1.7;margin:0 0 16px">
-            After payment, send your confirmation screenshot and vendor ID to:<br>
-            WhatsApp: <strong>+12402716512</strong> or email: <a href="mailto:yoloreunion@gmail.com" style="color:#2D6A4F">yoloreunion@gmail.com</a>
+            Need the account holder's name before sending? After payment, share your confirmation screenshot and vendor ID.<br>
+            Contact us on WhatsApp <a href="${c.whatsappHref}" style="color:#2D6A4F;font-weight:bold">${c.whatsappNumber}</a> or email <a href="${c.mailHref}" style="color:#2D6A4F;font-weight:bold">${c.email}</a> (<a href="${c.gmailHref}" style="color:#2D6A4F">open in Gmail</a>)
           </p>
           <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px 16px;margin:0 0 16px">
             <p style="color:#14532d;font-size:13px;margin:0;line-height:1.6">
