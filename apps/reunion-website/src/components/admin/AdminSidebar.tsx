@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 const NAV = [
   { href: '/admin', icon: '📊', label: 'Dashboard', exact: true },
@@ -15,11 +15,11 @@ const NAV = [
 
 export default function AdminSidebar({ adminName }: { adminName: string }) {
   const pathname = usePathname()
-  const router = useRouter()
 
   async function handleLogout() {
     await fetch('/api/admin/logout', { method: 'POST' })
-    router.push('/admin/login')
+    // Full page load so the admin layout drops the sidebar along with the session
+    window.location.assign('/admin/login')
   }
 
   return (

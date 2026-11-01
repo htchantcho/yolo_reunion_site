@@ -1,13 +1,11 @@
 'use client'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const router = useRouter()
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -19,7 +17,8 @@ export default function LoginForm() {
       body: JSON.stringify({ email, password }),
     })
     if (res.ok) {
-      router.push('/admin')
+      // Full page load so the admin layout re-renders with the new session (sidebar)
+      window.location.assign('/admin')
     } else {
       const data = await res.json()
       setError(data.error ?? 'Login failed')
