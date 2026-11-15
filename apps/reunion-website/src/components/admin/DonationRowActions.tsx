@@ -1,9 +1,12 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import DonationForm, { type EditableDonation } from './DonationForm'
 
-export default function DonationRowActions({ id, status }: { id: string; status: string }) {
+export default function DonationRowActions({ donation }: { donation: EditableDonation }) {
+  const { id, status } = donation
   const [busy, setBusy] = useState(false)
+  const [editing, setEditing] = useState(false)
   const router = useRouter()
 
   async function call(init: RequestInit) {
@@ -21,6 +24,8 @@ export default function DonationRowActions({ id, status }: { id: string; status:
     }
   }
 
+  const linkStyle = { background: 'none', border: 'none', padding: 0, fontWeight: 600, fontSize: 12, cursor: busy ? 'wait' : 'pointer' } as const
+
   return (
     <div style={{ display: 'flex', gap: 10, whiteSpace: 'nowrap' }}>
       {status === 'PENDING' && (
@@ -31,18 +36,31 @@ export default function DonationRowActions({ id, status }: { id: string; status:
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: 'PAID' }),
           })}
-          style={{ background: 'none', border: 'none', padding: 0, color: '#16a34a', fontWeight: 600, fontSize: 12, cursor: busy ? 'wait' : 'pointer' }}>
+          style={{ ...linkStyle, color: '#16a34a' }}>
           Mark received
         </button>
       )}
+      <button disabled={busy} onClick={() => setEditing(true)} style={{ ...linkStyle, color: '#2D6A4F' }}>
+        Edit
+      </button>
       <button
         disabled={busy}
         onClick={() => {
           if (confirm('Delete this contribution record? This cannot be undone.')) call({ method: 'DELETE' })
         }}
-        style={{ background: 'none', border: 'none', padding: 0, color: '#dc2626', fontWeight: 600, fontSize: 12, cursor: busy ? 'wait' : 'pointer' }}>
+        style={{ ...linkStyle, color: '#dc2626' }}>
         Delete
       </button>
+
+      {editing && (
+        <div
+          onClick={e => { if (e.target === e.currentTarget) setEditing(false) }}
+          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 50, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', overflowY: 'auto', padding: '40px 16px', whiteSpace: 'normal' }}>
+          <div style={{ width: '100%', maxWidth: 640 }}>
+            <DonationForm initial={donation} onDone={() => setEditing(false)} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -26,18 +26,37 @@ const CURRENCY_MULTIPLIER: Record<string, number> = {
 const labelStyle = { fontSize: 12, fontWeight: 600, color: '#374151', display: 'block', marginBottom: 4 } as const
 const fieldStyle = { width: '100%', padding: '7px 10px', border: '1px solid #d1d5db', borderRadius: 6, fontSize: 13, boxSizing: 'border-box' } as const
 
-export default function DonationForm() {
-  const [open, setOpen] = useState(false)
-  const [type, setType] = useState('SPONSORSHIP')
-  const [donorName, setDonorName] = useState('')
-  const [donorEmail, setDonorEmail] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [currency, setCurrency] = useState('XAF')
-  const [method, setMethod] = useState('MTN_MOMO')
-  const [status, setStatus] = useState('PAID')
-  const [ref, setRef] = useState('')
-  const [message, setMessage] = useState('')
-  const [anonymous, setAnonymous] = useState(false)
+export interface EditableDonation {
+  id: string
+  type: string
+  donorName: string | null
+  donorEmail: string | null
+  amount: number
+  currency: string
+  method: string
+  status: string
+  providerRef: string | null
+  message: string | null
+  anonymous: boolean
+}
+
+// With `initial`, the form edits that contribution (PATCH) and calls `onDone`
+// when saved or closed. Without it, it logs a new one (POST).
+export default function DonationForm({ initial, onDone }: { initial?: EditableDonation; onDone?: () => void } = {}) {
+  const editing = !!initial
+  const [open, setOpen] = useState(editing)
+  const [type, setType] = useState(initial?.type ?? 'SPONSORSHIP')
+  const [donorName, setDonorName] = useState(initial?.donorName ?? '')
+  const [donorEmail, setDonorEmail] = useState(initial?.donorEmail ?? '')
+  const [amount, setAmount] = useState(
+    initial ? initial.amount / (CURRENCY_MULTIPLIER[initial.currency] ?? 1) : 0,
+  )
+  const [currency, setCurrency] = useState(initial?.currency ?? 'XAF')
+  const [method, setMethod] = useState(initial?.method ?? 'MTN_MOMO')
+  const [status, setStatus] = useState(initial?.status ?? 'PAID')
+  const [ref, setRef] = useState(initial?.providerRef ?? '')
+  const [message, setMessage] = useState(initial?.message ?? '')
+  const [anonymous, setAnonymous] = useState(initial?.anonymous ?? false)
   const [loading, setLoading] = useState(false)
   const [msg, setMsg] = useState('')
   const [error, setError] = useState(false)
@@ -62,8 +81,8 @@ export default function DonationForm() {
     setMsg('')
     setError(false)
     try {
-      const res = await fetch('/api/admin/donations', {
-        method: 'POST',
+      const res = await fetch(editing ? `/api/admin/donations/${initial.id}` : '/api/admin/donations', {
+        method: editing ? 'PATCH' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type,
@@ -80,9 +99,13 @@ export default function DonationForm() {
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
-      setMsg('Contribution logged')
-      reset()
       router.refresh()
+      if (editing) {
+        onDone?.()
+      } else {
+        setMsg('Contribution logged')
+        reset()
+      }
     } catch (e: unknown) {
       setError(true)
       setMsg(e instanceof Error ? e.message : 'Error')
@@ -102,10 +125,12 @@ export default function DonationForm() {
   return (
     <form onSubmit={submit}
       style={{ background: 'white', borderRadius: 10, boxShadow: '0 1px 4px rgba(0,0,0,0.07)', padding: 20, display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
-      <div style={{ fontSize: 15, fontWeight: 700, color: '#111827' }}>Log a Contribution</div>
-      <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>
-        For sponsor and donor money received outside the registration flow — mobile money, bank transfer, cash handed in, etc.
-      </p>
+      <div style={{ fontSize: 15, fontWeight: 700, color: '#111827' }}>{editing ? 'Edit Contribution' : 'Log a Contribution'}</div>
+      {!editing && (
+        <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>
+          For sponsor and donor money received outside the registration flow — mobile money, bank transfer, cash handed in, etc.
+        </p>
+      )}
 
       {msg && (
         <div style={{
@@ -162,6 +187,8 @@ export default function DonationForm() {
           <select value={status} onChange={e => setStatus(e.target.value)} style={fieldStyle}>
             <option value="PAID">Received</option>
             <option value="PENDING">Pledged</option>
+            {/* Keep a status set elsewhere (e.g. refunded) selectable so saving doesn't silently change it */}
+            {status !== 'PAID' && status !== 'PENDING' && <option value={status}>{status}</option>}
           </select>
         </div>
       </div>
@@ -186,9 +213,9 @@ export default function DonationForm() {
       <div style={{ display: 'flex', gap: 8 }}>
         <button type="submit" disabled={loading}
           style={{ flex: 1, padding: '9px', background: '#2D6A4F', color: 'white', border: 'none', borderRadius: 6, fontWeight: 600, fontSize: 13, cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}>
-          {loading ? 'Saving…' : 'Save Contribution'}
+          {loading ? 'Saving…' : editing ? 'Save Changes' : 'Save Contribution'}
         </button>
-        <button type="button" onClick={() => { setOpen(false); setMsg('') }}
+        <button type="button" onClick={() => { setOpen(false); setMsg(''); onDone?.() }}
           style={{ padding: '9px 16px', background: 'white', color: '#374151', border: '1px solid #d1d5db', borderRadius: 6, fontSize: 13, cursor: 'pointer' }}>
           Close
         </button>

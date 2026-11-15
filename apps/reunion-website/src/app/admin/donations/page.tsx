@@ -213,7 +213,11 @@ export default async function DonationsPage({
                   {new Date(d.createdAt).toLocaleDateString('en-GB')}
                 </td>
                 <td style={{ padding: '10px 14px' }}>
-                  <DonationRowActions id={d.id} status={d.status} />
+                  <DonationRowActions donation={{
+                    id: d.id, type: d.type, donorName: d.donorName, donorEmail: d.donorEmail,
+                    amount: d.amount, currency: d.currency, method: d.method, status: d.status,
+                    providerRef: d.providerRef, message: d.message, anonymous: d.anonymous,
+                  }} />
                 </td>
               </tr>
             ))}
